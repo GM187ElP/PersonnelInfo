@@ -1,4 +1,4 @@
-﻿namespace PersonnelInfo.Core.Enums;
+﻿namespace PersonnelInfo.Shared.Enums;
 
 public enum NoteType
 {

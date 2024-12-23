@@ -1,4 +1,6 @@
-﻿using PersonnelInfo.Core.Enums;
+﻿
+
+using PersonnelInfo.Shared.Enums;
 
 namespace PersonnelInfo.Core.Entities;
 

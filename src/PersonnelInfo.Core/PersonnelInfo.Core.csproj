@@ -11,4 +11,8 @@
     <Folder Include="UseCases\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PersonnelInfo.Shared\PersonnelInfo.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
