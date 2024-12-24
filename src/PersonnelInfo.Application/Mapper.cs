@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PersonnelInfo.Application;
-public static class MapperToDto
+public static class Mapper
 {
     public static void MapToDto<T, TDto>(T entity, TDto dto) where TDto : class
     {
@@ -19,6 +19,22 @@ public static class MapperToDto
             {
                 var value =dtoProperty.GetValue(dto);
                 dtoProperty.SetValue(dto, value);
+            }
+        }
+    }
+
+    public static void MapToEntity<TDto, T>(TDto dto, T entity) where T : class
+    {
+        var dtoProperties = typeof(TDto).GetProperties();
+        var entityProperties = typeof(T).GetProperties();
+
+        foreach (var property in dtoProperties)
+        {
+            var entityProperty = entityProperties.FirstOrDefault(p => p.Name == property.Name);
+            if (entityProperty != null && entityProperty.CanWrite)
+            {
+                var value = entityProperty.GetValue(entity);
+                entityProperty.SetValue(entity, value);
             }
         }
     }

@@ -40,7 +40,7 @@ public class EmployeeRepository<T> : IRepository  where T : class
         if (entity == null)
             throw new InvalidOperationException($"Unable to create an instance of type {_entityType.Name}.");
       
-        MapperToEntity.MapToEntity(addDto, entity);
+        Mapper.MapToEntity(addDto, entity);
 
         var ResolvedEntity=(T)Convert.ChangeType(entity, typeof(T));
         await _dbSet.AddAsync(ResolvedEntity);
@@ -64,7 +64,7 @@ public class EmployeeRepository<T> : IRepository  where T : class
         foreach (var entity in entities)
         {
             var dto = Activator.CreateInstance(_dto); 
-            var mapMethod = typeof(MapperToDto)
+            var mapMethod = typeof(Mapper)
                             .GetMethod("MapToDto", new[] { _entityType, _dto }); 
 
             if (mapMethod != null)
@@ -87,7 +87,7 @@ public class EmployeeRepository<T> : IRepository  where T : class
         }
         var dto = Activator.CreateInstance(_dto);
 
-        MapperToDto.MapToDto(entity, dto);
+        Mapper.MapToDto(entity, dto);
         return dto;
     }
 
@@ -105,7 +105,7 @@ public class EmployeeRepository<T> : IRepository  where T : class
     {
         Convert.ChangeType(updateDto, _updateDto);
         var entity = await _dbSet.FindAsync(updateDto.GetType().GetProperty("Id"));
-        MapperToEntity.MapToEntity(updateDto, entity);
+        Mapper.MapToEntity(updateDto, entity);
           _dbSet.Update(entity);
         return  await _context.SaveChangesAsync()>0;
     }
