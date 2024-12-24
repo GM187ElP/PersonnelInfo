@@ -1,11 +1,8 @@
-﻿
+﻿using PersonnelInfo.Shared.Enums;
 
+namespace PersonnelInfo.Application.DTOs.Entities.Person;
 
-using PersonnelInfo.Shared.Enums;
-
-namespace PersonnelInfo.Core.Entities;
-
-public class Person
+public class UpdateEmployeeDto
 {
     #region Basic Information
     public int Id { get; set; }
@@ -36,12 +33,10 @@ public class Person
     #region Birth and Place Information
     public DateTime BirthDate { get; set; }
     public int BirthPlaceId { get; set; }
-    public City BirthPlace { get; set; }
     #endregion
 
     #region Shenasname Issuance Information
     public int ShenasnameIssuedPlaceId { get; set; }
-    public City ShenasnameIssuedPlace { get; set; }
     #endregion
 
     #region Insurance Information
@@ -53,7 +48,6 @@ public class Person
 
     #region Employment Information
     public int DepartmentId { get; set; }
-    public JobTitle JobTitle { get; set; }
     public EmploymentType EmploymentTypeDisplay { get; set; }
     public DateTime LeftDate { get; set; }
     public string SupervisorName { get; set; }
@@ -70,11 +64,5 @@ public class Person
     #region Academic Information
     public string MostRecentDegree { get; set; }
     public string Major { get; set; }
-    #endregion
-
-    #region Collection Properties
-    public ICollection<ChequePromissionaryNote> ChequePromissionaryNotes { get; set; }
-    public ICollection<StartLeaveHistory> StartLeftHistories { get; set; }
-    public ICollection<BankAccount> BankAccounts { get; set; }
     #endregion
 }

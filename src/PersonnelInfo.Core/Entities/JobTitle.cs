@@ -5,5 +5,5 @@ public class JobTitle
     public int Id { get; set; }
     public string Title { get; set; }
     public int DepartmentId { get; set; }  //nullable
-    public ICollection<Person> PersonList { get; set; }
+    public ICollection<Employee> PersonList { get; set; }
 }

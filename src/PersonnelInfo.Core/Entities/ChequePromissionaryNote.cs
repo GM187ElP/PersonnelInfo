@@ -11,5 +11,5 @@ public class ChequePromissionaryNote
     public NoteType Type { get; set; }
     public long Amount { get; set; }
     public int PersonId { get; set; }
-    public Person Person { get; set; }
+    public Employee Person { get; set; }
 }

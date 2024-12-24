@@ -2,9 +2,10 @@
 
 namespace PersonnelInfo.Application.DTOs.Entities.Person;
 
-public class AddPersonDto
+public class EmployeeDto
 {
     #region Basic Information
+    public int Id { get; set; }
     public int PersonnelCode { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }

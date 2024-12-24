@@ -8,5 +8,5 @@ public class BankAccount
     public bool IsMain { get; set; }
     public int PersonId { get; set; }
     public string Iban { get; set; }
-    public Person Person { get; set; }
+    public Employee Person { get; set; }
 }

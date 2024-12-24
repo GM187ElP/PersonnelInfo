@@ -6,5 +6,5 @@ public class StartLeaveHistory
     public DateTime StartedDate { get; set; }
     public DateTime LeftDate { get; set; }
     public int PersonnelId { get; set; }
-    public Person Person { get; set; }
+    public Employee Person { get; set; }
 }
