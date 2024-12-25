@@ -6,14 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PersonnelInfo.Application.Interfaces;
-
-string type = "Employee";
 public interface IEmployeeRepository
 {
-    Task AddAsync(TypeFinder.TypeFinderMethod(type,"Add") addDto);
-    Task DeleteByIdAsync(int id);
-    Task<bool> UpdateAsync(UpdateEmployeeDto UpdateDto);
-    Task<List<EmployeeDto>> GetAllAsync();
-    Task<EmployeeDto> GetDtoByIdAsync(int id);
+    Task<bool> AddAsync(object addDto);
+    Task<bool> DeleteByIdAsync(int id);
+    Task<bool> UpdateAsync(object updateDto);
+    Task<List<object>> GetAllAsync();
+    Task<object> GetByIdAsync(int id);
 }
-
