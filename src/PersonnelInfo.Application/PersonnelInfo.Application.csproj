@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PersonnelInfo.Core\PersonnelInfo.Core.csproj" />
-    <ProjectReference Include="..\PersonnelInfo.Shared\PersonnelInfo.Shared.csproj" />
   </ItemGroup>
 
 </Project>
