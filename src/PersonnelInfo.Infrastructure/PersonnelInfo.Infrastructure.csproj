@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PersonnelInfo.Application\PersonnelInfo.Application.csproj" />
-    <ProjectReference Include="..\PersonnelInfo.Core\PersonnelInfo.Core.csproj" />
   </ItemGroup>
 
 </Project>
