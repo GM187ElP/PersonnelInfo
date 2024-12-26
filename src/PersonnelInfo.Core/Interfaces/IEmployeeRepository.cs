@@ -1,11 +1,4 @@
-﻿using PersonnelInfo.Application.DTOs.Entities.Person;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PersonnelInfo.Application.Interfaces;
+﻿namespace PersonnelInfo.Core.Interfaces;
 public interface IEmployeeRepository
 {
     Task<bool> AddAsync(object addDto);

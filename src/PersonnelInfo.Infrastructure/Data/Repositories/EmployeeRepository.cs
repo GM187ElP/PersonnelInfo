@@ -1,16 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PersonnelInfo.Application;
-using PersonnelInfo.Application.DTOs.Entities.Person;
-using PersonnelInfo.Application.Interfaces;
+using PersonnelInfo.Application.DTOs.Entities.Employee;
 using PersonnelInfo.Core.Entities;
+using PersonnelInfo.Core.Interfaces;
 
-namespace PersonnelInfo.Infrastructure.Data;
-public class EmployeeRepository : IEmployeeRepository  
+namespace PersonnelInfo.Infrastructure.Data.Repositories;
+public class EmployeeRepository : IEmployeeRepository
 {
     EmployeeDto dto;                                // change the complete dto
     Employee addEntity;                             // change entity
     readonly DbSet<Employee> _dbSet;                // change entity
-    readonly Type _entityType=typeof(Employee);     // change entity
+    readonly Type _entityType = typeof(Employee);     // change entity
     readonly DbContext _context;
 
     public EmployeeRepository(DbContext context)
@@ -30,14 +30,14 @@ public class EmployeeRepository : IEmployeeRepository
         Mapper.MapToEntity(addDto, addEntity);
 
         await _dbSet.AddAsync(addEntity);
-        return await _context.SaveChangesAsync()>0;
+        return await _context.SaveChangesAsync() > 0;
     }
 
     public async Task<bool> DeleteByIdAsync(int id)
     {
         var entity = await _dbSet.FindAsync(id) ?? throw new NotFoundEntity(_entityType);
         _dbSet.Remove(entity);
-        return await _context.SaveChangesAsync()>0;
+        return await _context.SaveChangesAsync() > 0;
     }
 
 
@@ -68,10 +68,10 @@ public class EmployeeRepository : IEmployeeRepository
     public async Task<bool> UpdateAsync(object dto)
     {
         var idProperty = dto.GetType().GetProperty("Id") ?? throw new NullReferenceException($"{dto.GetType().Name} does not have id property");
-        var idValue=idProperty.GetValue(dto) ?? throw new NullReferenceException("Id cannot be null");
+        var idValue = idProperty.GetValue(dto) ?? throw new NullReferenceException("Id cannot be null");
         var entity = await _dbSet.FindAsync(idValue) ?? throw new NotFoundEntity(_entityType);
         Mapper.MapToEntity(dto, entity);
         _dbSet.Update(entity);
-        return  await _context.SaveChangesAsync()>0;
+        return await _context.SaveChangesAsync() > 0;
     }
 }
