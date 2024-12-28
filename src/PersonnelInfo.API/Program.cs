@@ -1,6 +1,5 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using PersonnelInfo.Infrastructure.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 

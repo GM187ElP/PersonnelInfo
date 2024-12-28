@@ -7,36 +7,32 @@ using PersonnelInfo.Core.Interfaces;
 namespace PersonnelInfo.Infrastructure.Data.Repositories;
 public class EmployeeRepository : IEmployeeRepository
 {
-    EmployeeDto dto;                                // change the complete dto
-    Employee addEntity;                             // change entity
+    Employee _entity;                             // change entity
     readonly DbSet<Employee> _dbSet;                // change entity
     readonly Type _entityType = typeof(Employee);     // change entity
     readonly DbContext _context;
 
-    public EmployeeRepository(DbContext context)
+    public EmployeeRepository(DbContext context) 
     {
         _context = context;
         _dbSet = _context.Set<Employee>();          // change entity
 
         //----------------------------------------------------------------------------------------------------------
-        dto = new();
-        addEntity = new();
+        _entity = new();
     }
 
 
-    public async Task<bool> AddAsync(object addDto)
+    public async Task<bool> AddAsync(object entity)
     {
-        addEntity = new();
-        Mapper.MapToEntity(addDto, addEntity);
-
-        await _dbSet.AddAsync(addEntity);
+        _entity = entity as Employee;
+        await _dbSet.AddAsync(_entity);
         return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> DeleteByIdAsync(int id)
+    public async Task<bool> DeleteAsync(object entity)
     {
-        var entity = await _dbSet.FindAsync(id) ?? throw new NotFoundEntity(_entityType);
-        _dbSet.Remove(entity);
+        _entity = entity as Employee;
+        _dbSet.Remove(_entity);
         return await _context.SaveChangesAsync() > 0;
     }
 

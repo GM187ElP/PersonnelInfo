@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonnelInfo.Core.Interfaces;
-public interface IEmployeeServices
+namespace PersonnelInfo.Shared.Interfaces;
+public interface IRepository
 {
 
 }
