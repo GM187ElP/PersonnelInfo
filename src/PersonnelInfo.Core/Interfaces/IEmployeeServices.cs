@@ -1,10 +1,5 @@
 ﻿using PersonnelInfo.Core.DTOs.Entities.Employee;
 using PersonnelInfo.Shared.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PersonnelInfo.Core.Interfaces;
 public interface IEmployeeServices : IServices
