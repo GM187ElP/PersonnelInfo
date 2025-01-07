@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PersonnelInfo.Application;
 public static class Mapper
 {
-    public static void MapToDto<T, TDto>(T entity, TDto dto) where TDto : class
+    public static TDto MapToDto<T, TDto>(T entity, TDto dto) where TDto : class
     {
         var dtoProperties = typeof(TDto).GetProperties();
         var entityProperties = typeof(T).GetProperties();
@@ -21,9 +21,16 @@ public static class Mapper
                 dtoProperty.SetValue(dto, value);
             }
         }
+        return dto;
+    }
+    public static TDto MapToDto<T,TDto>(T entity) where TDto : class,new()
+    {
+        var dto = new TDto();
+        MapToDto(entity, dto);
+        return dto;
     }
 
-    public static void MapToEntity<TDto, T>(TDto dto, T entity) where T : class
+    public static T MapToEntity<TDto, T>(TDto dto, T entity) where T : class
     {
         var dtoProperties = typeof(TDto).GetProperties();
         var entityProperties = typeof(T).GetProperties();
@@ -37,5 +44,12 @@ public static class Mapper
                 entityProperty.SetValue(entity, value);
             }
         }
+        return entity;
+    }
+    public static T MapToEntity<TDto,T>(TDto dto) where T : class,new()
+    {
+        var entity = new T();
+        MapToEntity(dto, entity);
+        return entity;
     }
 }

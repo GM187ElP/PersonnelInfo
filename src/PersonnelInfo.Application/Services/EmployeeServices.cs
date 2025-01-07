@@ -1,60 +1,59 @@
-﻿using PersonnelInfo.Application.DTOs.Entities.Employee;
+﻿using PersonnelInfo.Application.Interfaces;
+using PersonnelInfo.Core.DTOs.Entities.Employee;
 using PersonnelInfo.Core.Entities;
 using PersonnelInfo.Core.Interfaces;
-using PersonnelInfo.Shared.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PersonnelInfo.Application.Services;
-public class EmployeeServices : IEmployeeServices
+namespace PersonnelInfo.Application.Services
 {
-    IEmployeeRepository _repository;
-    IUnitOfWork _unitOfWork;
-    public EmployeeServices(IEmployeeRepository repository, IUnitOfWork unitOfWork)
+    public class EmployeeServices : IEmployeeServices
     {
-        _repository = repository;
-        _unitOfWork = unitOfWork;
-    }
+        readonly IEmployeeRepository _repository;
+        readonly IUnitOfWork _unitOfWork;
 
-    public async void AddAsync(AddEmployeeDto addDto)
-    {
-        await _unitOfWork.BeginTransactionAsync();
-        try
+        public EmployeeServices(IEmployeeRepository repository, IUnitOfWork unitOfWork)
         {
-            var employee = new Employee();
-            Mapper.MapToEntity(addDto, employee);
-            await _repository.AddAsync(employee);
-            await _unitOfWork.SaveChangesAsync();
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        }
+
+        public async Task AddAsync(AddEmployeeDto addDto)
+        {
+            var entity = Mapper.MapToEntity(addDto, new Employee());
+            await _repository.AddAsync(entity);
+            await _unitOfWork.BeginTransactionAsync();
             await _unitOfWork.CommitTransactionAsync();
         }
-        catch
+
+        public async Task DeleteByIdAsync(long id)
         {
-            await _unitOfWork.RollbackTransactionAsync();
-            throw;
+            await _repository.DeleteByIdAsync(id);
+            await _unitOfWork.BeginTransactionAsync();
+            await _unitOfWork.CommitTransactionAsync();
         }
-    }
 
-    public async Task DeleteByIdAsync(int id)
-    {
-        var employee = new Employee();
-        employee=(Employee) await _repository.GetByIdAsync(id);
-    }
+        public async Task<List<EmployeeDto>> GetAllAsync()
+        {
+            var entityList = await _repository.GetAllAsync();
+            List<EmployeeDto> employeeDtos = new();
+            foreach (var item in entityList)
+            {
+                employeeDtos.Add(Mapper.MapToDto(item, new EmployeeDto()));
+            }
+            return employeeDtos;
+        }
 
-    public List<EmployeeDto> GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
+        public async Task<EmployeeDto> GetByIdAsync(long id)
+        {
+            var entity = (Employee)await _repository.GetByIdAsync(id);
+            return Mapper.MapToDto(entity, new EmployeeDto()) ?? throw new Exception();
+        }
 
-    public List<EmployeeDto> GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void UpdateAsync(EmployeeDto updateDto)
-    {
-        throw new NotImplementedException();
+        public async Task UpdateAsync(EmployeeDto updateDto)
+        {
+            var entity = Mapper.MapToEntity(updateDto, new Employee());
+            await _repository.Update(entity);
+            await _unitOfWork.BeginTransactionAsync();
+            await _unitOfWork.CommitTransactionAsync();
+        }
     }
 }

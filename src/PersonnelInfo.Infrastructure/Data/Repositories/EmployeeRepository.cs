@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PersonnelInfo.Application;
-using PersonnelInfo.Application.DTOs.Entities.Employee;
+using PersonnelInfo.Application.Interfaces;
 using PersonnelInfo.Core.Entities;
-using PersonnelInfo.Core.Interfaces;
 
 namespace PersonnelInfo.Infrastructure.Data.Repositories;
 public class EmployeeRepository : IEmployeeRepository
@@ -12,7 +10,7 @@ public class EmployeeRepository : IEmployeeRepository
     readonly Type _entityType = typeof(Employee);     // change entity
     readonly DbContext _context;
 
-    public EmployeeRepository(DbContext context) 
+    public EmployeeRepository(DbContext context)
     {
         _context = context;
         _dbSet = _context.Set<Employee>();          // change entity
@@ -21,53 +19,32 @@ public class EmployeeRepository : IEmployeeRepository
         _entity = new();
     }
 
-
-    public async Task<bool> AddAsync(object entity)
+    public async Task AddAsync(object entity)
     {
         _entity = entity as Employee;
         await _dbSet.AddAsync(_entity);
-        return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> DeleteAsync(object entity)
+    public async Task DeleteByIdAsync(long id)
     {
-        _entity = entity as Employee;
+        _entity =await GetByIdAsync(id) as Employee;
         _dbSet.Remove(_entity);
-        return await _context.SaveChangesAsync() > 0;
     }
 
-
-    public async Task<List<object>> GetAllAsync()
+    public async Task<List<Employee>> GetAllAsync()
     {
         var entities = await _dbSet.ToListAsync();
-
-        var dtos = new List<object>();
-
-        foreach (var entity in entities)
-        {
-            dto = new();
-            Mapper.MapToDto(entity, dto);
-            dtos.Add(dto);
-        }
-
-        return dtos;
+        return entities;
     }
 
-    public async Task<object> GetByIdAsync(int id)
+    public async Task<object> GetByIdAsync(long id)
     {
         var entity = await _dbSet.FindAsync(id) ?? throw new NotFoundEntity(_entityType);
-        dto = new();
-        Mapper.MapToDto(entity, dto);
-        return dto;
+        return entity;
     }
 
-    public async Task<bool> UpdateAsync(object dto)
+    public async Task Update(object entity)
     {
-        var idProperty = dto.GetType().GetProperty("Id") ?? throw new NullReferenceException($"{dto.GetType().Name} does not have id property");
-        var idValue = idProperty.GetValue(dto) ?? throw new NullReferenceException("Id cannot be null");
-        var entity = await _dbSet.FindAsync(idValue) ?? throw new NotFoundEntity(_entityType);
-        Mapper.MapToEntity(dto, entity);
-        _dbSet.Update(entity);
-        return await _context.SaveChangesAsync() > 0;
+        _dbSet.Update((Employee)entity);
     }
 }
