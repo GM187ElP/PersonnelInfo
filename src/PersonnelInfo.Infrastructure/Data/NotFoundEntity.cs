@@ -1,4 +1,8 @@
-﻿namespace PersonnelInfo.Infrastructure.Data;
+﻿using PersonnelInfo.Application.Interfaces;
+using PersonnelInfo.Core.Entities;
+using PersonnelInfo.Infrastructure.Data.Repositories;
+
+namespace PersonnelInfo.Infrastructure.Data;
 
 [Serializable]
 public class NotFoundEntity : Exception

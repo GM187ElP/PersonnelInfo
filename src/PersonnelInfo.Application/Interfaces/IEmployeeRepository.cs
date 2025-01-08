@@ -2,11 +2,11 @@
 using PersonnelInfo.Shared.Interfaces;
 
 namespace PersonnelInfo.Application.Interfaces;
-public interface IEmployeeRepository : IRepository
+public interface IRepository<T> where T : class
 {
-    Task AddAsync(object entity);
-    Task DeleteByIdAsync(long id);
-    Task Update(object entity);
-    Task<List<Employee>> GetAllAsync();
-    Task<object> GetByIdAsync(long id);
+    Task AddAsync(T entity);
+    void DeleteById(long id);
+    void Update(T entity);
+    Task<List<T>> GetAllAsync();
+    Task<T> GetByIdAsync(long id);
 }

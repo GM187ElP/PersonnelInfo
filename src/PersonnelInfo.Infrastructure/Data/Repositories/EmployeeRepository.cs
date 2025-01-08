@@ -1,50 +1,52 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PersonnelInfo.Application.Interfaces;
 using PersonnelInfo.Core.Entities;
+using System.Runtime.InteropServices;
 
 namespace PersonnelInfo.Infrastructure.Data.Repositories;
-public class EmployeeRepository : IEmployeeRepository
+public class EmployeeRepository<T> : IRepository<T> where T :Employee  // change entity
 {
-    Employee _entity;                             // change entity
-    readonly DbSet<Employee> _dbSet;                // change entity
-    readonly Type _entityType = typeof(Employee);     // change entity
+    T? _entity;
+    readonly DbSet<T> _dbSet;             
+    readonly Type _entityType;    
     readonly DbContext _context;
 
     public EmployeeRepository(DbContext context)
     {
         _context = context;
-        _dbSet = _context.Set<Employee>();          // change entity
-
-        //----------------------------------------------------------------------------------------------------------
-        _entity = new();
+        _dbSet = _context.Set<T>();         
+        _entityType = typeof(T);
     }
-
-    public async Task AddAsync(object entity)
+    private T CreateInstance()
     {
-        _entity = entity as Employee;
+        return Activator.CreateInstance<T>();
+    }
+    public async Task AddAsync(T entity)
+    {
+        _entity = CreateInstance();
         await _dbSet.AddAsync(_entity);
     }
 
-    public async Task DeleteByIdAsync(long id)
+    public void DeleteById(long id)
     {
-        _entity =await GetByIdAsync(id) as Employee;
+        _entity = CreateInstance();
         _dbSet.Remove(_entity);
     }
 
-    public async Task<List<Employee>> GetAllAsync()
+    public async Task<List<T>> GetAllAsync()
     {
         var entities = await _dbSet.ToListAsync();
         return entities;
     }
 
-    public async Task<object> GetByIdAsync(long id)
+    public async Task<T> GetByIdAsync(long id)
     {
         var entity = await _dbSet.FindAsync(id) ?? throw new NotFoundEntity(_entityType);
         return entity;
     }
 
-    public async Task Update(object entity)
+    public void Update(T entity)
     {
-        _dbSet.Update((Employee)entity);
+        _dbSet.Update(entity);
     }
 }

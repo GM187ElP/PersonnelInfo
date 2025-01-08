@@ -7,10 +7,11 @@ namespace PersonnelInfo.Application.Services
 {
     public class EmployeeServices : IEmployeeServices
     {
-        readonly IEmployeeRepository _repository;
+        readonly IRepository<Employee> _repository;
+
         readonly IUnitOfWork _unitOfWork;
 
-        public EmployeeServices(IEmployeeRepository repository, IUnitOfWork unitOfWork)
+        public EmployeeServices(IRepository<Employee> repository, IUnitOfWork unitOfWork)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
@@ -18,41 +19,44 @@ namespace PersonnelInfo.Application.Services
 
         public async Task AddAsync(AddEmployeeDto addDto)
         {
-            var entity = Mapper.MapToEntity(addDto, new Employee());
-            await _repository.AddAsync(entity);
+            var _entity = new Employee();
+            _entity = Mapper.MapToEntity(addDto, _entity);
+
             await _unitOfWork.BeginTransactionAsync();
+            await _repository.AddAsync(_entity);
             await _unitOfWork.CommitTransactionAsync();
         }
 
         public async Task DeleteByIdAsync(long id)
         {
-            await _repository.DeleteByIdAsync(id);
             await _unitOfWork.BeginTransactionAsync();
+            _repository.DeleteById(id);
             await _unitOfWork.CommitTransactionAsync();
         }
 
         public async Task<List<EmployeeDto>> GetAllAsync()
         {
             var entityList = await _repository.GetAllAsync();
-            List<EmployeeDto> employeeDtos = new();
+            var employeesDto = new List<EmployeeDto>();
             foreach (var item in entityList)
             {
-                employeeDtos.Add(Mapper.MapToDto(item, new EmployeeDto()));
+                employeesDto.Add(Mapper.MapToDto(item, new EmployeeDto()));
             }
-            return employeeDtos;
+            return employeesDto;
         }
 
         public async Task<EmployeeDto> GetByIdAsync(long id)
         {
-            var entity = (Employee)await _repository.GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(id);
             return Mapper.MapToDto(entity, new EmployeeDto()) ?? throw new Exception();
         }
 
         public async Task UpdateAsync(EmployeeDto updateDto)
         {
             var entity = Mapper.MapToEntity(updateDto, new Employee());
-            await _repository.Update(entity);
+
             await _unitOfWork.BeginTransactionAsync();
+            _repository.Update(entity);
             await _unitOfWork.CommitTransactionAsync();
         }
     }

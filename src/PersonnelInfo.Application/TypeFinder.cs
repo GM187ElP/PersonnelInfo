@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonnelInfo.Infrastructure;
+namespace PersonnelInfo.Application;
 public static class TypeFinder
 {
     public static Type FindEntityType(string entityType)
@@ -17,7 +17,7 @@ public static class TypeFinder
         return resolvedType;
     }
 
-    public static Type FindDtoType(string dtoType, string? operation="")
+    public static Type FindDtoType(string dtoType, string? operation = "")
     {
         var dtoTypeName = $"{dtoType}{operation}Dto";
 

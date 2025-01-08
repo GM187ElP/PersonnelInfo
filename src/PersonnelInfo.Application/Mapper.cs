@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PersonnelInfo.Application;
+﻿namespace PersonnelInfo.Application;
 public static class Mapper
 {
     public static TDto MapToDto<T, TDto>(T entity, TDto dto) where TDto : class

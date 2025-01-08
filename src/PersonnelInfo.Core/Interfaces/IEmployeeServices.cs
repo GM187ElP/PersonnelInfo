@@ -2,7 +2,7 @@
 using PersonnelInfo.Shared.Interfaces;
 
 namespace PersonnelInfo.Core.Interfaces;
-public interface IEmployeeServices : IServices
+public interface IEmployeeServices
 {
     Task AddAsync(AddEmployeeDto addDto);
     Task DeleteByIdAsync(long id);
