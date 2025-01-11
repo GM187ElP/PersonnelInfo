@@ -10,6 +10,6 @@ public class ChequePromissionaryNote
     public string Number { get; set; }
     public NoteType Type { get; set; }
     public long Amount { get; set; }
-    public int PersonId { get; set; }
-    public Employee Person { get; set; }
+    public int EmployeeId { get; set; }
+    public Employee Employee { get; set; }
 }

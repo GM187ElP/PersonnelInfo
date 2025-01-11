@@ -6,7 +6,7 @@ public class BankAccount
     public int Id { get; set; }
     public string BankName { get; set; }
     public bool IsMain { get; set; }
-    public int PersonId { get; set; }
+    public int EmployeeId { get; set; }
     public string Iban { get; set; }
-    public Employee Person { get; set; }
+    public Employee Employee { get; set; }
 }

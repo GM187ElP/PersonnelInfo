@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using PersonnelInfo.Application.Interfaces;
+using PersonnelInfo.Application.Services;
+using PersonnelInfo.Core.Entities;
 using PersonnelInfo.Core.Interfaces;
 using PersonnelInfo.Infrastructure.Data;
 using PersonnelInfo.Infrastructure.Data.Repositories;
@@ -13,6 +15,6 @@ public class InfrastructureModule : Module
         builder.RegisterType<PersonnelInfoDbContext>().AsSelf().InstancePerLifetimeScope();
         builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
 
-        builder.RegisterType<EmployeeRepository>().As<IRepository>().InstancePerLifetimeScope();
+        builder.RegisterType<EmployeeRepository<Employee>>().As<IRepository>().InstancePerLifetimeScope();
     }
 }
