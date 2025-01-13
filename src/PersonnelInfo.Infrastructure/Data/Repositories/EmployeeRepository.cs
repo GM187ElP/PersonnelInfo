@@ -4,14 +4,14 @@ using PersonnelInfo.Core.Entities;
 using System.Runtime.InteropServices;
 
 namespace PersonnelInfo.Infrastructure.Data.Repositories;
-public class EmployeeRepository<T> : IRepository<T> where T :Employee  // change entity
+public class CityRepository<T> : IRepository<T> where T :Employee  // change entity
 {
     T? _entity;
     readonly DbSet<T> _dbSet;             
     readonly Type _entityType;    
     readonly DbContext _context;
 
-    public EmployeeRepository(DbContext context)
+    public CityRepository(DbContext context)
     {
         _context = context;
         _dbSet = _context.Set<T>();         
