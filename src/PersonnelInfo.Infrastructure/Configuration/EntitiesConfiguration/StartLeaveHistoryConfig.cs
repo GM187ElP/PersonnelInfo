@@ -12,6 +12,6 @@ public class StartLeaveHistoryConfig : IEntityTypeConfiguration<StartLeaveHistor
 {
     void IEntityTypeConfiguration<StartLeaveHistory>.Configure(EntityTypeBuilder<StartLeaveHistory> builder)
     {
-        
+        builder.ToTable("StartLeaveHistories");
     }
 }

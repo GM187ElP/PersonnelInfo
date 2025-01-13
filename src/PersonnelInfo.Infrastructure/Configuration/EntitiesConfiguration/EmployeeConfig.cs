@@ -8,6 +8,7 @@ public class EmployeeConfig : IEntityTypeConfiguration<Employee>
 {
     public void Configure(EntityTypeBuilder<Employee> builder)
     {
+        builder.ToTable("Employees");
         builder.HasIndex(e => e.PersonnelCode).IsUnique();
         builder.Property(e => e.FirstName).IsRequired().HasMaxLength(21);
         builder.Property(e => e.LastName).IsRequired().HasMaxLength(21);

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using PersonnelInfo.Core.Entities;
 using PersonnelInfo.Infrastructure.Configuration.EntitiesConfiguration;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PersonnelInfo.Infrastructure.Configuration;
-public class DatabaseContext:DbContext
+public class DatabaseContext : DbContext
 {
     public DatabaseContext()
     {
-        
+
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

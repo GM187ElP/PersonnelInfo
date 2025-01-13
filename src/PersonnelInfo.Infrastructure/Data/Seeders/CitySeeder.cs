@@ -25,6 +25,5 @@ public class CitySeeder
         }
 
         await _context.SaveChangesAsync();
-        Console.ReadLine();
     }
 }
