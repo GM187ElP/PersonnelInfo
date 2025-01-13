@@ -8,7 +8,7 @@ public class EmployeeConfig : IEntityTypeConfiguration<Employee>
 {
     public void Configure(EntityTypeBuilder<Employee> builder)
     {
-        builder.HasIndex(e => e.PersonnelCode);
+        builder.HasIndex(e => e.PersonnelCode).IsUnique();
         builder.Property(e => e.FirstName).IsRequired().HasMaxLength(21);
         builder.Property(e => e.LastName).IsRequired().HasMaxLength(21);
         builder.Property(e => e.FatherName).HasMaxLength(21);
@@ -26,10 +26,11 @@ public class EmployeeConfig : IEntityTypeConfiguration<Employee>
         builder.Property(e => e.MostRecentDegree).HasMaxLength(21);
         builder.Property(e => e.Major).HasMaxLength(21);
 
+        builder.HasOne(e => e.SuperVisor).WithMany(e => e.Employees).HasForeignKey(e => e.SupervisorId);
+
         builder.HasMany(e => e.ChequePromissionaryNotes).WithOne(c => c.Employee).HasForeignKey(c => c.EmployeeId);
         builder.HasMany(e => e.StartLeftHistories).WithOne(s => s.Employee).HasForeignKey(s => s.EmployeeId);
         builder.HasMany(e => e.BankAccounts).WithOne(b => b.Employee).HasForeignKey(b => b.EmployeeId);
     }
 }
 
-  

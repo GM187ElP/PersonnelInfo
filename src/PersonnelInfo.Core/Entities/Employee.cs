@@ -59,6 +59,7 @@ public class Employee
     public DateTime? LeavingDate { get; set; }
     public int? SupervisorId { get; set; }
     public Employee SuperVisor { get; set; }
+    public ICollection<Employee> Employees { get; set; }
     #endregion
 
     #region Contact Information
