@@ -2,6 +2,6 @@
 
 DatabaseContext context = new();
 
-context.Database.EnsureDeleted();
-context.Database.EnsureCreated();
+//context.Database.EnsureDeleted();
+//context.Database.EnsureCreated();
 
