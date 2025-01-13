@@ -1,6 +1,4 @@
-﻿using PersonnelInfo.Core.Entities;
-using PersonnelInfo.Shared.Interfaces;
-
+﻿
 namespace PersonnelInfo.Application.Interfaces;
 public interface IRepository<T> where T : class
 {
