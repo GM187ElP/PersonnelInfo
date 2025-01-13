@@ -12,7 +12,8 @@ public class JobTitleConfig : IEntityTypeConfiguration<JobTitle>
 {
     void IEntityTypeConfiguration<JobTitle>.Configure(EntityTypeBuilder<JobTitle> builder)
     {
-        builder.Property(e => e.Title).HasMaxLength(21).IsRequired();
+        builder.HasKey(e => e.Title);
+        builder.Property(e => e.Title).HasMaxLength(21);
         builder.HasOne(e=>e.Department).WithMany(e=>e.JobTitles).HasForeignKey(e=>e.DepartmentId);
     }
 }

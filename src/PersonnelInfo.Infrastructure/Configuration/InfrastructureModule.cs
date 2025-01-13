@@ -10,7 +10,7 @@ public class InfrastructureModule : Module
 {
     protected override void Load(ContainerBuilder builder)
     {
-        builder.RegisterType<PersonnelInfoDbContext>().AsSelf().InstancePerLifetimeScope();
+        builder.RegisterType<DatabaseContext>().AsSelf().InstancePerLifetimeScope();
         builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
 
         builder.RegisterType<EmployeeRepository<Employee>>().As<IRepository<Employee>>().InstancePerLifetimeScope();
