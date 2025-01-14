@@ -8,8 +8,8 @@ namespace PersonnelInfo.Core.Entities;
 public class Employee
 {
     #region Basic Information
-    public int Id { get; set; }
-    public int PersonnelCode { get; set; } = 0;
+    public long Id { get; set; }
+    public long PersonnelCode { get; set; } 
     public string FirstName { get; set; }
     public string LastName { get; set; }
     #endregion

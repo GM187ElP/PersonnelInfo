@@ -12,7 +12,7 @@ public class BankAccountConfig : IEntityTypeConfiguration<BankAccount>
 {
     void IEntityTypeConfiguration<BankAccount>.Configure(EntityTypeBuilder<BankAccount> builder)
     {
-        builder.ToTable("BankAccounts");
+        RelationalEntityTypeBuilderExtensions.ToTable(builder,"BankAccounts");
         builder.Property(x => x.AccountNumber).HasMaxLength(21);
         builder.Property(x => x.Iban).HasMaxLength(22).IsRequired();
     }

@@ -2,8 +2,8 @@
 using PersonnelInfo.Application.Interfaces;
 using PersonnelInfo.Application.Services;
 using PersonnelInfo.Core.Entities;
-using PersonnelInfo.Core.Interfaces;
 using PersonnelInfo.Infrastructure.Data.Repositories;
+using PersonnelInfo.Infrastructure.Services;
 
 namespace PersonnelInfo.Infrastructure.Configuration;
 public class InfrastructureModule : Module

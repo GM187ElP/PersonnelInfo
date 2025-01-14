@@ -28,7 +28,12 @@ public class EmployeeRepository : IEmployeeRepository
         return entities;
     }
 
-    public async Task<Employee> GetByIdAsync(long id) => await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id) ?? throw new NotFoundEntity(typeof(Employee));
+    public async Task<Employee> GetByIdAsync(long id) => await _dbSet.AsNoTracking().Include(e => e.ChequePromissionaryNotes).Include(e => e.StartLeftHistories).Include(x => x.BankAccounts).FirstOrDefaultAsync(e => e.Id == id) ?? throw new NotFoundEntity(typeof(Employee));
 
-    public async Task UpdateAsync(Employee entity) => _context.Entry(await _dbSet.FindAsync(entity.Id) ?? throw new NotFoundEntity(typeof(Employee))).CurrentValues.SetValues(entity);
+    public async Task UpdateAsync(Employee entity)
+    {
+        _context.Entry(await _dbSet.FindAsync(entity.Id) ?? throw new NotFoundEntity(typeof(Employee))).CurrentValues.SetValues(entity);
+    }
+
+    public async Task<long> MaxPersonnelCodeAsync() => await _dbSet.Where(e => e.PersonnelCode < 20000).DefaultIfEmpty().MaxAsync(e => e!.PersonnelCode);
 }

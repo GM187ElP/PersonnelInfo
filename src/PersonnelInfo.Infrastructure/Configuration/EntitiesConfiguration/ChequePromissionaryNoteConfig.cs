@@ -13,7 +13,7 @@ public class ChequePromissionaryNoteConfig : IEntityTypeConfiguration<ChequeProm
 {
     void IEntityTypeConfiguration<ChequePromissionaryNote>.Configure(EntityTypeBuilder<ChequePromissionaryNote> builder)
     {
-        builder.ToTable("ChequePromissionaryNotes");
+        RelationalEntityTypeBuilderExtensions.ToTable(builder,"ChequePromissionaryNotes");
         builder.Property(x => x.Number).IsRequired();
     }
 }

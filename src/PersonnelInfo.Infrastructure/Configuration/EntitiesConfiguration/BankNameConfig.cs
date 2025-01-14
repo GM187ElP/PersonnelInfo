@@ -12,7 +12,7 @@ public class BankNameConfig : IEntityTypeConfiguration<BankName>
 {
     void IEntityTypeConfiguration<BankName>.Configure(EntityTypeBuilder<BankName> builder)
     {
-        builder.ToTable("BankNameList");
+        RelationalEntityTypeBuilderExtensions.ToTable(builder,"BankNameList");
         builder.HasKey(x => x.Name);
     }
 }

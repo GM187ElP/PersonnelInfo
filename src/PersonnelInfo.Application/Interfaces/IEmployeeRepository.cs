@@ -9,4 +9,5 @@ public interface IEmployeeRepository
     Task UpdateAsync(Employee entity);
     Task<List<Employee>> GetAllAsync();
     Task<Employee> GetByIdAsync(long id);
+    Task<long> MaxPersonnelCodeAsync();
 }
