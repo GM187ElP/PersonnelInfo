@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Options;
-using PersonnelInfo.Infrastructure.Configuration;
+﻿using PersonnelInfo.Infrastructure.Configuration;
+using Microsoft.Extensions.Options;
 using PersonnelInfo.Infrastructure.Data.Seeders;
 
 var dbContext = new DatabaseContext();

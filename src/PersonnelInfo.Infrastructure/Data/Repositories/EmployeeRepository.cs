@@ -1,14 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PersonnelInfo.Application.Interfaces;
-using PersonnelInfo.Core.DTOs.Entities.Employee;
+using PersonnelInfo.Application.Interfaces.Entities;
 using PersonnelInfo.Core.Entities;
-using System.Runtime.InteropServices;
 
 namespace PersonnelInfo.Infrastructure.Data.Repositories;
 public class EmployeeRepository : IEmployeeRepository
 {
-    readonly DbSet<Employee> _dbSet;
-    readonly DbContext _context;
+    private readonly DbSet<Employee> _dbSet;
+    private readonly DbContext _context;
 
     public EmployeeRepository(DbContext context)
     {
@@ -16,24 +14,42 @@ public class EmployeeRepository : IEmployeeRepository
         _dbSet = _context.Set<Employee>();
     }
 
-    public async Task AddAsync(Employee entity) => await _dbSet.AddAsync(entity);
+    public async Task AddAsync(Employee entity, CancellationToken cancellationToken = default) =>
+        await _dbSet.AddAsync(entity, cancellationToken);
 
-    public async Task DeleteByIdAsync(long id) => _dbSet.Remove(await _dbSet.FindAsync(id) ?? throw new NotFoundEntity(typeof(Employee)));
-
-
-    public async Task<List<Employee>> GetAllAsync()
+    public async Task DeleteByIdAsync(long id, CancellationToken cancellationToken = default)
     {
-        var entities = await _dbSet.AsNoTracking().ToListAsync();
+        var entity = await _dbSet.FindAsync(new object[] { id }, cancellationToken)
+                      ?? throw new NotFoundEntity(typeof(Employee));
+        _dbSet.Remove(entity);
+    }
+
+    public async Task<List<Employee>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        var entities = await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
         if (!entities.Any()) throw new NotFoundEntity(typeof(Employee));
         return entities;
     }
 
-    public async Task<Employee> GetByIdAsync(long id) => await _dbSet.AsNoTracking().Include(e => e.ChequePromissionaryNotes).Include(e => e.StartLeftHistories).Include(x => x.BankAccounts).FirstOrDefaultAsync(e => e.Id == id) ?? throw new NotFoundEntity(typeof(Employee));
+    public async Task<Employee> GetByIdAsync(long id, CancellationToken cancellationToken = default) =>
+        await _dbSet
+            .AsNoTracking()
+            .Include(e => e.ChequePromissionaryNotes)
+            .Include(e => e.StartLeftHistories)
+            .Include(e => e.BankAccounts)
+            .FirstOrDefaultAsync(e => e.Id == id, cancellationToken)
+        ?? throw new NotFoundEntity(typeof(Employee));
 
-    public async Task UpdateAsync(Employee entity)
+    public async Task UpdateAsync(Employee entity, CancellationToken cancellationToken = default)
     {
-        _context.Entry(await _dbSet.FindAsync(entity.Id) ?? throw new NotFoundEntity(typeof(Employee))).CurrentValues.SetValues(entity);
+        var existingEntity = await _dbSet.FindAsync(new object[] { entity.Id }, cancellationToken)
+                             ?? throw new NotFoundEntity(typeof(Employee));
+        _context.Entry(existingEntity).CurrentValues.SetValues(entity);
     }
 
-    public async Task<long> MaxPersonnelCodeAsync() => await _dbSet.Where(e => e.PersonnelCode < 20000).DefaultIfEmpty().MaxAsync(e => e!.PersonnelCode);
+    public async Task<long> MaxPersonnelCodeAsync(CancellationToken cancellationToken = default) =>
+        await _dbSet
+            .Where(e => e.PersonnelCode < 20000)
+            .DefaultIfEmpty()
+            .MaxAsync(e => e!.PersonnelCode, cancellationToken);
 }
