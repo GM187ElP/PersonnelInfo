@@ -34,7 +34,7 @@ public class Employee
     #endregion
 
     #region Birth and Place Information
-    public DateTime? BirthDate { get; set; }
+    public DateTime BirthDate { get; set; }
     public int? BirthPlaceId { get; set; }
     public City BirthPlace { get; set; }
     #endregion
@@ -55,8 +55,8 @@ public class Employee
     public int? DepartmentId { get; set; }
     public JobTitle JobTitle { get; set; }
     public EmploymentType? EmploymentTypeDisplay { get; set; }
-    public DateTime? StartingDate { get; set; }
-    public DateTime? LeavingDate { get; set; }
+    public DateTime StartingDate { get; set; }
+    public DateTime LeavingDate { get; set; }
     public int? SupervisorId { get; set; }
     public Employee SuperVisor { get; set; }
     public ICollection<Employee> Employees { get; set; }

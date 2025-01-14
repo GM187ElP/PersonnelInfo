@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PersonnelInfo.Core.Entities;
-using PersonnelInfo.Shared.Enums;
 
 namespace PersonnelInfo.Infrastructure.Configuration.EntitiesConfiguration;
 public class EmployeeConfig : IEntityTypeConfiguration<Employee>
 {
     public void Configure(EntityTypeBuilder<Employee> builder)
     {
-        RelationalEntityTypeBuilderExtensions.ToTable(builder,"Employees");
+        var dateDelimiter = '-';
+        RelationalEntityTypeBuilderExtensions.ToTable(builder, "Employees");
         builder.HasIndex(e => e.PersonnelCode).IsUnique();
         builder.HasIndex(e => e.NationalId).IsUnique();
         builder.HasIndex(e => e.ContactNumber).IsUnique();
@@ -36,6 +36,28 @@ public class EmployeeConfig : IEntityTypeConfiguration<Employee>
         builder.HasMany(e => e.ChequePromissionaryNotes).WithOne(c => c.Employee).HasForeignKey(c => c.EmployeeId);
         builder.HasMany(e => e.StartLeftHistories).WithOne(s => s.Employee).HasForeignKey(s => s.EmployeeId);
         builder.HasMany(e => e.BankAccounts).WithOne(b => b.Employee).HasForeignKey(b => b.EmployeeId);
+
+        #region Conversions
+        builder.Property(e => e.GenderDisplay).HasConversion(e => _Conversions.GenderType2String(e), e => _Conversions.String2GenderType(e));
+        builder.Property(e => e.WorkingStatusDisplay).HasConversion(e => _Conversions.WorkingStatus2String(e), e => _Conversions.String2WorkingStatus(e));
+
+        builder.Property(e => e.BirthDate).HasConversion(e => _Conversions.Gregorian2Farsi(e, dateDelimiter), e => _Conversions.Farsi2Gregorian(e, dateDelimiter));
+        builder.Property(e => e.StartingDate).HasConversion(e => _Conversions.Gregorian2Farsi(e, dateDelimiter), e => _Conversions.Farsi2Gregorian(e, dateDelimiter));
+        builder.Property(e => e.LeavingDate).HasConversion(e => _Conversions.Gregorian2Farsi(e, dateDelimiter), e => _Conversions.Farsi2Gregorian(e, dateDelimiter));
+        #endregion
     }
 }
+
+
+
+
+
+   
+
+
+
+
+
+
+
 
