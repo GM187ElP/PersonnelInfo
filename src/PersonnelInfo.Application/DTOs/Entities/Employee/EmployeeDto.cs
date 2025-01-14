@@ -1,4 +1,4 @@
-﻿namespace PersonnelInfo.Core.DTOs.Entities.Employee;
+﻿namespace PersonnelInfo.Application.DTOs.Entities.Employee;
 
 public class EmployeeDto : AddEmployeeDto
 {

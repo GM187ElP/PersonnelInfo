@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(ContainerBuilder =>
 {
-    ContainerBuilder.RegisterModule(new InfrastructureModule());
+    ContainerBuilder.RegisterModule(new ProjectModule());
 });
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

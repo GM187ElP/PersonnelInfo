@@ -1,7 +1,7 @@
 ﻿
 
 
-using PersonnelInfo.Shared.Enums;
+using PersonnelInfo.Core.Enums;
 
 namespace PersonnelInfo.Core.Entities;
 

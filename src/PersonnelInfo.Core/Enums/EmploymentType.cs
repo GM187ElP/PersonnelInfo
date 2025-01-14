@@ -1,4 +1,4 @@
-﻿namespace PersonnelInfo.Shared.Enums;
+﻿namespace PersonnelInfo.Core.Enums;
 
 public enum EmploymentType
 {
