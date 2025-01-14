@@ -7,11 +7,11 @@ namespace PersonnelInfo.Application.Services
 {
     public class EmployeeServices : IEmployeeServices
     {
-        readonly IRepository<Employee> _repository;
+        readonly IEmployeeRepository<Employee> _repository;
 
         readonly IUnitOfWork _unitOfWork;
 
-        public EmployeeServices(IRepository<Employee> repository, IUnitOfWork unitOfWork)
+        public EmployeeServices(IEmployeeRepository<Employee> repository, IUnitOfWork unitOfWork)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));

@@ -13,6 +13,6 @@ public class InfrastructureModule : Module
         builder.RegisterType<DatabaseContext>().AsSelf().InstancePerLifetimeScope();
         builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
 
-        builder.RegisterType<CityRepository<Employee>>().As<IRepository<Employee>>().InstancePerLifetimeScope();
+        builder.RegisterType<CityRepository<Employee>>().As<IEmployeeRepository<Employee>>().InstancePerLifetimeScope();
     }
 }

@@ -1,52 +1,34 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PersonnelInfo.Application.Interfaces;
+using PersonnelInfo.Core.DTOs.Entities.Employee;
 using PersonnelInfo.Core.Entities;
 using System.Runtime.InteropServices;
 
 namespace PersonnelInfo.Infrastructure.Data.Repositories;
-public class CityRepository<T> : IRepository<T> where T :Employee  // change entity
+public class EmployeeRepository : IEmployeeRepository
 {
-    T? _entity;
-    readonly DbSet<T> _dbSet;             
-    readonly Type _entityType;    
+    readonly DbSet<Employee> _dbSet;
     readonly DbContext _context;
 
-    public CityRepository(DbContext context)
+    public EmployeeRepository(DbContext context)
     {
         _context = context;
-        _dbSet = _context.Set<T>();         
-        _entityType = typeof(T);
-    }
-    private T CreateInstance()
-    {
-        return Activator.CreateInstance<T>();
-    }
-    public async Task AddAsync(T entity)
-    {
-        _entity = CreateInstance();
-        await _dbSet.AddAsync(_entity);
+        _dbSet = _context.Set<Employee>();
     }
 
-    public void DeleteById(long id)
-    {
-        _entity = CreateInstance();
-        _dbSet.Remove(_entity);
-    }
+    public async Task AddAsync(Employee entity) => await _dbSet.AddAsync(entity);
 
-    public async Task<List<T>> GetAllAsync()
+    public async Task DeleteByIdAsync(long id) => _dbSet.Remove(await _dbSet.FindAsync(id) ?? throw new NotFoundEntity(typeof(Employee)));
+
+
+    public async Task<List<Employee>> GetAllAsync()
     {
-        var entities = await _dbSet.ToListAsync();
+        var entities = await _dbSet.AsNoTracking().ToListAsync();
+        if (!entities.Any()) throw new NotFoundEntity(typeof(Employee));
         return entities;
     }
 
-    public async Task<T> GetByIdAsync(long id)
-    {
-        var entity = await _dbSet.FindAsync(id) ?? throw new NotFoundEntity(_entityType);
-        return entity;
-    }
+    public async Task<Employee> GetByIdAsync(long id) => await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id) ?? throw new NotFoundEntity(typeof(Employee));
 
-    public void Update(T entity)
-    {
-        _dbSet.Update(entity);
-    }
+    public async Task UpdateAsync(Employee entity) => _context.Entry(await _dbSet.FindAsync(entity.Id) ?? throw new NotFoundEntity(typeof(Employee))).CurrentValues.SetValues(entity);
 }
