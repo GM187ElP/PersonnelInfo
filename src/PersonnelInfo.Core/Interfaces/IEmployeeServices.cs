@@ -1,5 +1,4 @@
 ﻿using PersonnelInfo.Core.DTOs.Entities.Employee;
-using PersonnelInfo.Shared.Interfaces;
 
 namespace PersonnelInfo.Core.Interfaces;
 public interface IEmployeeServices

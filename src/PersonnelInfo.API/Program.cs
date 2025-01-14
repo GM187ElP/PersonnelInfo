@@ -1,5 +1,6 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using PersonnelInfo.Infrastructure.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,12 +17,17 @@ builder.Host.ConfigureContainer<ContainerBuilder>(ContainerBuilder =>
 builder.Services.AddOpenApi();
 
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwaggerUI(o =>
+    {
+        o.SwaggerEndpoint("/openapi/v1.json", "PersonnelInfo");
+    });
 }
 
 app.UseHttpsRedirection();

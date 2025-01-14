@@ -6,7 +6,7 @@ namespace PersonnelInfo.Core.Entities;
 
 public class ChequePromissionaryNote
 {
-    public Guid Id { get; set; }
+    public long Id { get; set; }
     public string Number { get; set; }
     public NoteType Type { get; set; }
     public long Amount { get; set; }

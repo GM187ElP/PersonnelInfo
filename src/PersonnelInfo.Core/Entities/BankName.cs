@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonnelInfo.Shared.Interfaces;
-public interface IRepository
+namespace PersonnelInfo.Core.Entities;
+public class BankName
 {
-
+    public string Name { get; set; }
 }
