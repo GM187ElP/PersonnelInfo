@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Microsoft.EntityFrameworkCore;
 using PersonnelInfo.Application.Interfaces;
 using PersonnelInfo.Application.Interfaces.Entities;
 using PersonnelInfo.Application.Services;
@@ -11,7 +12,7 @@ public class ProjectModule : Module
 {
     protected override void Load(ContainerBuilder builder)
     {
-        builder.RegisterType<DatabaseContext>().AsSelf().InstancePerLifetimeScope();
+        builder.RegisterType<DatabaseContext>().As<DbContext>().AsSelf().InstancePerLifetimeScope();
         builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
 
         builder.RegisterType<EmployeeRepository>().As<IEmployeeRepository>().InstancePerLifetimeScope();

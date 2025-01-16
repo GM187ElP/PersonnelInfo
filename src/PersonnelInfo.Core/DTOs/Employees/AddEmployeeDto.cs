@@ -1,6 +1,6 @@
 ﻿using PersonnelInfo.Core.Enums;
 
-namespace PersonnelInfo.Application.DTOs.Entities.Employee;
+namespace PersonnelInfo.Core.DTOs.Employees;
 
 public class AddEmployeeDto
 {

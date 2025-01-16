@@ -11,10 +11,8 @@ using System.Threading.Tasks;
 namespace PersonnelInfo.Infrastructure.Configuration;
 public class DatabaseContext : DbContext
 {
-    public DatabaseContext()
-    {
-
-    }
+    public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
+    public DatabaseContext() { }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

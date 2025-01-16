@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PersonnelInfo.Application.Interfaces.Entities;
 using PersonnelInfo.Core.Entities;
+using PersonnelInfo.Shared.Exceptions.Infrastructure;
 
 namespace PersonnelInfo.Infrastructure.Data.Repositories;
 public class JobTitleRepository : IJobTitleRepository

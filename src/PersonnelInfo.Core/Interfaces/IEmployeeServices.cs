@@ -1,8 +1,7 @@
-﻿using PersonnelInfo.Core.DTOs.Entities.Employee;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using PersonnelInfo.Core.DTOs.Employees;
 
 namespace PersonnelInfo.Core.Interfaces;
+
 public interface IEmployeeServices
 {
     Task AddAsync(AddEmployeeDto addDto, CancellationToken cancellationToken = default);

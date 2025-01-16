@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PersonnelInfo.Application.Interfaces.Entities;
 using PersonnelInfo.Core.Entities;
+using PersonnelInfo.Shared.Exceptions.Infrastructure;
 
 namespace PersonnelInfo.Infrastructure.Data.Repositories;
 public class CityRepository : ICityRepository
@@ -19,7 +20,7 @@ public class CityRepository : ICityRepository
 
     public async Task DeleteByIdAsync(long id, CancellationToken cancellationToken = default)
     {
-        var entity = await _dbSet.FindAsync(new object[] { id }, cancellationToken)
+        var entity = await _dbSet.FindAsync( id , cancellationToken)
                       ?? throw new NotFoundEntity(typeof(City));
         _dbSet.Remove(entity);
     }

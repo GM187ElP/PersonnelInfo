@@ -1,15 +1,13 @@
-﻿
-
-
+﻿using PersonnelInfo.Core.Entities;
 using PersonnelInfo.Core.Enums;
 
-namespace PersonnelInfo.Core.Entities;
+namespace PersonnelInfo.Core.DTOs.Employees;
 
-public class Employee
+public class EmployeeDto : AddEmployeeDto
 {
     #region Basic Information
     public long Id { get; set; }
-    public long PersonnelCode { get; set; } 
+    public long PersonnelCode { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     #endregion
@@ -21,7 +19,7 @@ public class Employee
 
     #region Family Information
     public string? FatherName { get; set; }
-    public bool? IsMarried { get; set; } 
+    public bool? IsMarried { get; set; }
     public int ChildrenCount { get; set; } = 0;
     #endregion
 
@@ -35,12 +33,12 @@ public class Employee
 
     #region Birth and Place Information
     public DateTime BirthDate { get; set; }
-    public long? BirthPlaceId { get; set; }
+    public int? BirthPlaceId { get; set; }
     public City BirthPlace { get; set; }
     #endregion
 
     #region Shenasname Issuance Information
-    public long? ShenasnameIssuedPlaceId { get; set; }
+    public int? ShenasnameIssuedPlaceId { get; set; }
     public City ShenasnameIssuedPlace { get; set; }
     #endregion
 
@@ -52,13 +50,13 @@ public class Employee
     #endregion
 
     #region Employment Information
-    public long? DepartmentId { get; set; }
+    public int? DepartmentId { get; set; }
     public JobTitle JobTitle { get; set; }
     public EmploymentType? EmploymentTypeDisplay { get; set; }
     public DateTime StartingDate { get; set; }
     public DateTime LeavingDate { get; set; }
-    public long? SupervisorId { get; set; }
-    public Employee SuperVisor { get; set; } 
+    public int? SupervisorId { get; set; }
+    public Employee SuperVisor { get; set; }
     public ICollection<Employee> Employees { get; set; }
     #endregion
 
@@ -73,11 +71,5 @@ public class Employee
     #region Academic Information
     public string? MostRecentDegree { get; set; }
     public string? Major { get; set; }
-    #endregion
-
-    #region Collection Properties
-    public ICollection<ChequePromissionaryNote> ChequePromissionaryNotes { get; set; }
-    public ICollection<StartLeaveHistory> StartLeftHistories { get; set; }
-    public ICollection<BankAccount> BankAccounts { get; set; }
     #endregion
 }
