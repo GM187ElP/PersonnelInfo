@@ -16,10 +16,10 @@ public class EncryptDecryptIdMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        // Handle GET, POST, and PUT requests
+        //Handle GET, POST, and PUT requests
         if (/*context.Request.Method == "GET" ||*/ context.Request.Method == "POST" || context.Request.Method == "PUT")
         {
-            // For GET requests, decrypt the route parameter
+            ////For GET requests, decrypt the route parameter
             //if (context.Request.Method == "GET")
             //{
             //    var routeValues = context.GetRouteData()?.Values;
@@ -43,7 +43,7 @@ public class EncryptDecryptIdMiddleware
             //    }
             //}
 
-            // For POST and PUT requests, handle body decryption
+            //// For POST and PUT requests, handle body decryption
             if (context.Request.Method == "POST" || context.Request.Method == "PUT")
             {
                 var requestBody = await new StreamReader(context.Request.Body).ReadToEndAsync();

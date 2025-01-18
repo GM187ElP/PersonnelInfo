@@ -3,6 +3,7 @@ using PersonnelInfo.Application.Interfaces.Entities;
 using PersonnelInfo.Core.DTOs.Employees;
 using PersonnelInfo.Core.Entities;
 using PersonnelInfo.Core.Interfaces;
+using PersonnelInfo.Shared.Exceptions.Application;
 using PersonnelInfo.Shared.Exceptions.Infrastructure;
 
 namespace PersonnelInfo.Application.Services;
@@ -18,15 +19,25 @@ public class EmployeeServices : IEmployeeServices
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public async Task AddAsync(AddEmployeeDto addDto, CancellationToken cancellationToken = default)
+    public async Task<bool> AddAsync(AddEmployeeDto addDto, CancellationToken cancellationToken = default)
     {
-        var entity = Mapper.MapToEntity(addDto, new Employee());
-        entity.PersonnelCode = await _repository.MaxPersonnelCodeAsync(cancellationToken) + 1;
-
-        await _unitOfWork.ExecuteInTransactionAsync(async _ =>
+        var existedEntity = await _repository.NationalIdExistAsync(addDto.NationalId, cancellationToken);
+        if (existedEntity==null)
         {
-            await _repository.AddAsync(entity, cancellationToken);
-        }, cancellationToken);
+            var entity = Mapper.MapToEntity(addDto, new Employee());
+            entity.PersonnelCode = await _repository.MaxPersonnelCodeAsync(cancellationToken) + 1;
+
+            await _unitOfWork.ExecuteInTransactionAsync(async _ =>
+            {
+                await _repository.AddAsync(entity, cancellationToken);
+            }, cancellationToken);
+
+            if (await _repository.NationalIdExistAsync(addDto.NationalId, cancellationToken)!=null) return true;
+
+            else throw new EntityAdditionFailedException($"Failed to add the {typeof(Employee).Name} due to an unknown reason.");
+        }
+        throw new DuplicateEntityException($"An {typeof(Employee).Name} with the same NationalId already exists.");
+
     }
 
     public async Task DeleteByIdAsync(long id, CancellationToken cancellationToken = default)
@@ -58,8 +69,14 @@ public class EmployeeServices : IEmployeeServices
     public async Task<EmployeeDto> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
         var entity = await _repository.GetByIdAsync(id, cancellationToken)
-                      ?? throw new NotFoundEntity();
+            ?? throw new NotFoundEntity();
+        return Mapper.MapToDto(entity, new EmployeeDto());
+    }
 
+    public async Task<EmployeeDto> GetByNationalId(string nationalId, CancellationToken cancellationToken = default)
+    {
+        var entity = await _repository.NationalIdExistAsync(nationalId, cancellationToken)
+            ?? throw new NotFoundEntity();
         return Mapper.MapToDto(entity, new EmployeeDto());
     }
 

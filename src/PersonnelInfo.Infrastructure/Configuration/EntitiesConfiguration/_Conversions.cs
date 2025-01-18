@@ -50,8 +50,11 @@ namespace PersonnelInfo.Infrastructure.Configuration.EntitiesConfiguration
         public static string Gregorian2Farsi(DateTime gregorianDate, char delimiter)
         {
             var farsiCalendar = new PersianCalendar();
+            if(gregorianDate<new DateTime(622,3,22)) throw new ArgumentOutOfRangeException();
+            
             var date = (farsiCalendar.GetYear(gregorianDate), farsiCalendar.GetMonth(gregorianDate), farsiCalendar.GetDayOfMonth(gregorianDate));
             return $"{date.Item1}{delimiter}{date.Item2:D2}{delimiter}{date.Item3:D2}";
+
         }
 
         public static DateTime Farsi2Gregorian(string farsiDate, char delimiter)

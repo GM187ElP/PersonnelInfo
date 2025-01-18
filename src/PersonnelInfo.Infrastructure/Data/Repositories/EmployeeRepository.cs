@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PersonnelInfo.Application.Interfaces.Entities;
 using PersonnelInfo.Core.Entities;
+using System.Linq;
 
 namespace PersonnelInfo.Infrastructure.Data.Repositories;
 public class EmployeeRepository : IEmployeeRepository
@@ -28,6 +29,9 @@ public class EmployeeRepository : IEmployeeRepository
         return entities;
     }
 
+    public async Task<Employee> NationalIdExistAsync(string nationalId, CancellationToken cancellationToken = default) =>
+         await _dbSet.FirstOrDefaultAsync(e => e.NationalId == nationalId);
+
     public async Task<Employee> GetByIdAsync(long id, CancellationToken cancellationToken = default) =>
         await _dbSet
             .AsNoTracking()
@@ -42,9 +46,19 @@ public class EmployeeRepository : IEmployeeRepository
         _context.Entry(existingEntity).CurrentValues.SetValues(entity);
     }
 
-    public async Task<long> MaxPersonnelCodeAsync(CancellationToken cancellationToken = default) =>
-        await _dbSet
+    public async Task<long> MaxPersonnelCodeAsync(CancellationToken cancellationToken = default)
+    {
+        // Fetch the records from the database
+        var employees = await _dbSet
             .Where(e => e.PersonnelCode < 20000)
-            .DefaultIfEmpty()
-            .MaxAsync(e => e!.PersonnelCode, cancellationToken);
+            .ToListAsync(cancellationToken); // Load into memory first
+
+        // If there are no employees, use a default value
+        var max = employees.DefaultIfEmpty(new Employee { PersonnelCode = 0 })
+                           .Max(e => e.PersonnelCode); // Get max from in-memory data
+
+        return max;
+    }
+
+
 }

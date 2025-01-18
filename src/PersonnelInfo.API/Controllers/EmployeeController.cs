@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using PersonnelInfo.Application.Services;
+using PersonnelInfo.Core.Entities;
 using PersonnelInfo.Core.Interfaces;
 using PersonnelInfo.Shared.Exceptions.Infrastructure;
 using System.Threading;
@@ -30,7 +31,7 @@ public class EmployeeController : ControllerBase
 
     // GET api/<EmployeeController>/5
     [HttpGet("{id}")]
-    public async Task<IActionResult> Get(string id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetById(string id, CancellationToken cancellationToken = default)
     {
         if (int.TryParse(id, out int parsedId))
         {
@@ -38,15 +39,19 @@ public class EmployeeController : ControllerBase
             return Ok(employee);
         }
 
-        return BadRequest("Invalid ID format.");
+        return BadRequest("Invalid Id format.");
     }
 
+    
 
-    //// POST api/<EmployeeController>
-    //[HttpPost]
-    //public void Post([FromBody] string value)
-    //{
-    //}
+    // POST api/<EmployeeController>
+    [HttpPost]
+    public async Task<IActionResult> Add([FromBody] AddEmployeeDto addDto, CancellationToken cancellationToken = default)
+    {
+        var isAdded=await _services.AddAsync(addDto, cancellationToken);
+        if (isAdded) return  CreatedAtAction(nameof(GetById), new { id =  _services.GetByNationalId(addDto.NationalId).Id }, new { message = $"Employee with name: {addDto.FirstName} {addDto.LastName} is added successfully." });
+        return BadRequest(new { message = "Failed to add the employee. Please check the provided data." });
+    }
 
     //// PUT api/<EmployeeController>/5
     //[HttpPut("{id}")]

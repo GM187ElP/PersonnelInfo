@@ -31,6 +31,10 @@ public class EmployeeConfig : IEntityTypeConfiguration<Employee>
         builder.Property(e => e.MostRecentDegree).HasMaxLength(21);
         builder.Property(e => e.Major).HasMaxLength(21);
 
+        builder.Property(e => e.BirthDate).HasDefaultValue(new DateTime(622, 3, 22));
+        builder.Property(e => e.StartingDate).HasDefaultValue(new DateTime(622, 3, 22));
+        builder.Property(e => e.LeavingDate).HasDefaultValue(new DateTime(622, 3, 22));
+
         builder.HasOne(e => e.SuperVisor).WithMany(e => e.Employees).HasForeignKey(e => e.SupervisorId);
 
         builder.HasMany(e => e.ChequePromissionaryNotes).WithOne(c => c.Employee).HasForeignKey(c => c.EmployeeId);

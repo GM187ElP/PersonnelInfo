@@ -21,9 +21,12 @@ builder.Services.AddOpenApi();
 // Add any other necessary services (e.g. logging, authentication)
 builder.Services.AddLogging();
 builder.Services.AddAuthentication();
+builder.Services.AddTransient<GlobalExceptionMiddleware>();
 
 // Add the middleware manually
 var app = builder.Build();
+
+// 1. Global exception handling middleware (at the beginning)
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -35,11 +38,10 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-// 1. Global exception handling middleware (at the beginning)
+//app.UseMiddleware<EncryptDecryptIdMiddleware>();
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
 // 2. Encryption/Decryption middleware (after exception handling)
-app.UseMiddleware<EncryptDecryptIdMiddleware>();
 
 // 3. Standard middleware (HTTPS, Authorization, etc.)
 app.UseHttpsRedirection();

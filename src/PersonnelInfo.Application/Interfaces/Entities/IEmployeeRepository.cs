@@ -13,4 +13,5 @@ public interface IEmployeeRepository
     Task<List<Employee>> GetAllAsync(CancellationToken cancellationToken = default);
     Task<Employee> GetByIdAsync(long id, CancellationToken cancellationToken = default);
     Task<long> MaxPersonnelCodeAsync(CancellationToken cancellationToken = default);
+    Task<Employee> NationalIdExistAsync(string nationbalId, CancellationToken cancellationToken = default);
 }
