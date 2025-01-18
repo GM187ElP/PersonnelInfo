@@ -1,23 +1,28 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using PersonnelInfo.Infrastructure.Configuration;
+using PersonnelInfo.Application;  // Add your interface references
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-builder.Host.ConfigureContainer<ContainerBuilder>(ContainerBuilder =>
+
+// Register Autofac modules and services
+builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
-    ContainerBuilder.RegisterModule(new ProjectModule());
+    containerBuilder.RegisterModule(new ProjectModule()); // Your Autofac module (e.g. ProjectModule)
 });
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+// Register OpenAPI
 builder.Services.AddOpenApi();
 
+// Add any other necessary services (e.g. logging, authentication)
+builder.Services.AddLogging();
+builder.Services.AddAuthentication();
 
-
+// Add the middleware manually
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,10 +35,17 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
+// 1. Global exception handling middleware (at the beginning)
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
+// 2. Encryption/Decryption middleware (after exception handling)
+app.UseMiddleware<EncryptDecryptIdMiddleware>();
+
+// 3. Standard middleware (HTTPS, Authorization, etc.)
+app.UseHttpsRedirection();
 app.UseAuthorization();
 
+// 4. Map controllers after all other middleware
 app.MapControllers();
 
 app.Run();

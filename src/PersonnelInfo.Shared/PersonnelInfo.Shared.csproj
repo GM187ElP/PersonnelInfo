@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Exceptions\Core\" />
-    <Folder Include="Exceptions\Application\" />
     <Folder Include="Interfaces\" />
   </ItemGroup>
 

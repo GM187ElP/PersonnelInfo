@@ -7,11 +7,14 @@ namespace PersonnelInfo.Core.Entities;
 
 public class Employee
 {
-    #region Basic Information
     public long Id { get; set; }
+
+    #region Basic Information
     public long PersonnelCode { get; set; } 
     public string FirstName { get; set; }
     public string LastName { get; set; }
+    public string NationalId { get; set; }
+    public string ContactNumber { get; set; }
     #endregion
 
     #region Gender and Status
@@ -26,7 +29,6 @@ public class Employee
     #endregion
 
     #region Identity Information
-    public string? NationalId { get; set; }
     public string? ShenasnameNumber { get; set; }
     public string? ShenasnameSerialLetter { get; set; }
     public string? ShenasnameSerie { get; set; }
@@ -65,7 +67,6 @@ public class Employee
     #region Contact Information
     public string? InternalContactNumber { get; set; }
     public string? LandPhoneNumber { get; set; }
-    public string? ContactNumber { get; set; }
     public string? Address { get; set; }
     public string? PostalCode { get; set; }
     #endregion

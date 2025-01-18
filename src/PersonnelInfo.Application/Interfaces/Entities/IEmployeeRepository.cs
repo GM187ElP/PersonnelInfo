@@ -8,7 +8,7 @@ namespace PersonnelInfo.Application.Interfaces.Entities;
 public interface IEmployeeRepository
 {
     Task AddAsync(Employee entity, CancellationToken cancellationToken = default);
-    Task DeleteByIdAsync(long id, CancellationToken cancellationToken = default);
+    Task DeleteAsync(Employee entity, CancellationToken cancellationToken = default);
     Task UpdateAsync(Employee entity, CancellationToken cancellationToken = default);
     Task<List<Employee>> GetAllAsync(CancellationToken cancellationToken = default);
     Task<Employee> GetByIdAsync(long id, CancellationToken cancellationToken = default);

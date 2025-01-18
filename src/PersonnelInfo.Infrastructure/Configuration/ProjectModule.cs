@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Microsoft.EntityFrameworkCore;
+using PersonnelInfo.Application;
 using PersonnelInfo.Application.Interfaces;
 using PersonnelInfo.Application.Interfaces.Entities;
 using PersonnelInfo.Application.Services;
@@ -12,6 +13,7 @@ public class ProjectModule : Module
 {
     protected override void Load(ContainerBuilder builder)
     {
+        builder.RegisterType<RSAESEncryption>().AsSelf().SingleInstance(); 
         builder.RegisterType<DatabaseContext>().As<DbContext>().AsSelf().InstancePerLifetimeScope();
         builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
 

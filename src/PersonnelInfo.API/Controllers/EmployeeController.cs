@@ -30,22 +30,17 @@ public class EmployeeController : ControllerBase
 
     // GET api/<EmployeeController>/5
     [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id Cancellation )
+    public async Task<IActionResult> Get(string id, CancellationToken cancellationToken = default)
     {
-        try
+        if (int.TryParse(id, out int parsedId))
         {
-            var employee = await _services.GetByIdAsync(id, cancellationToken);
+            var employee = await _services.GetByIdAsync(parsedId, cancellationToken);
             return Ok(employee);
         }
-        catch (NotFoundEntity)
-        {
-            return NotFound($"Employee with ID {id} was not found.");
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Unexpected error: {ex.Message}");
-        }
+
+        return BadRequest("Invalid ID format.");
     }
+
 
     //// POST api/<EmployeeController>
     //[HttpPost]

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PersonnelInfo.Application.Interfaces.Entities;
 using PersonnelInfo.Core.Entities;
-using PersonnelInfo.Shared.Exceptions.Infrastructure;
 
 namespace PersonnelInfo.Infrastructure.Data.Repositories;
 public class CityRepository : ICityRepository
@@ -20,26 +19,22 @@ public class CityRepository : ICityRepository
 
     public async Task DeleteByIdAsync(long id, CancellationToken cancellationToken = default)
     {
-        var entity = await _dbSet.FindAsync( id , cancellationToken)
-                      ?? throw new NotFoundEntity(typeof(City));
+        var entity = await _dbSet.FindAsync(id, cancellationToken);
         _dbSet.Remove(entity);
     }
 
     public async Task<List<City>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         var entities = await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
-        if (!entities.Any()) throw new NotFoundEntity(typeof(City));
         return entities;
     }
 
     public async Task<City> GetByIdAsync(long id, CancellationToken cancellationToken = default) =>
-        await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken)
-        ?? throw new NotFoundEntity(typeof(City));
+        await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 
     public async Task UpdateAsync(City entity, CancellationToken cancellationToken = default)
     {
-        var existingEntity = await _dbSet.FindAsync(new object[] { entity.Id }, cancellationToken)
-                             ?? throw new NotFoundEntity(typeof(City));
+        var existingEntity = await _dbSet.FindAsync(new object[] { entity.Id }, cancellationToken);
         _context.Entry(existingEntity).CurrentValues.SetValues(entity);
     }
 }
