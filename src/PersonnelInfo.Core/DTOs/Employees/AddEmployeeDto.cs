@@ -53,7 +53,7 @@ public class AddEmployeeDto
     #region Employment Information
     public int? DepartmentId { get; set; }
     public EmploymentType? EmploymentTypeDisplay { get; set; }
-    public DateTime? LeftDate { get; set; }
+    public DateTime LeftDate { get; set; }
     public string SupervisorName { get; set; }
     #endregion
 

@@ -1,0 +1,97 @@
+﻿@page "/employee-form"
+@inject HttpClient Http
+
+<h3>Add Employee</h3>
+
+<EditForm Model="Employee" OnValidSubmit="HandleValidSubmit" FormName="AddEmployeeForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Personnel Code:</label>
+        <InputNumber @bind-Value="Employee.PersonnelCode" class="form-control" />
+    </div>
+    <div>
+        <label>First Name:</label>
+        <InputText @bind-Value="Employee.FirstName" class="form-control" />
+    </div>
+    <div>
+        <label>Last Name:</label>
+        <InputText @bind-Value="Employee.LastName" class="form-control" />
+    </div>
+    <div>
+        <label>National ID:</label>
+        <InputText @bind-Value="Employee.NationalId" class="form-control" />
+    </div>
+    <div>
+        <label>Contact Number:</label>
+        <InputText @bind-Value="Employee.ContactNumber" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Employee</button>
+</EditForm>
+
+
+@if (SuccessMessage != null)
+{
+    <p class="text-success">@SuccessMessage</p>
+}
+
+@if (ErrorMessage != null)
+{
+    <p class="text-danger">@ErrorMessage</p>
+}
+
+@code {
+    [SupplyParameterFromForm]
+    public AddEmployeeDto Employee { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Employee = new()
+            {
+                PersonnelCode = 0, // Or a meaningful default value
+                FirstName = string.Empty,
+                LastName = string.Empty,
+                NationalId = string.Empty,
+                ContactNumber = string.Empty
+            };
+    }
+
+
+    private string? SuccessMessage;
+    private string? ErrorMessage;
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync("api/Employee/Add", Employee);
+            if (response.IsSuccessStatusCode)
+            {
+
+                SuccessMessage = "Employee added successfully.";
+                ErrorMessage = null;
+                Employee = new AddEmployeeDto();  // Reset the model
+                StateHasChanged();  // Trigger re-render if needed
+
+            }
+            else
+            {
+                var error = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+                ErrorMessage = error?.Message ?? "Failed to add the employee.";
+                SuccessMessage = null;
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"An error occurred: {ex.Message}";
+            SuccessMessage = null;
+        }
+    }
+
+    public class ErrorResponse
+    {
+        public string Message { get; set; } = string.Empty;
+    }
+}

@@ -46,6 +46,7 @@ public class EmployeeController : ControllerBase
 
     // POST api/<EmployeeController>
     [HttpPost]
+    [Route("Add")]
     public async Task<IActionResult> Add([FromBody] AddEmployeeDto addDto, CancellationToken cancellationToken = default)
     {
         var isAdded=await _services.AddAsync(addDto, cancellationToken);

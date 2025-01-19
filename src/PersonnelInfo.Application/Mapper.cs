@@ -29,17 +29,19 @@ public static class Mapper
         var dtoProperties = typeof(TDto).GetProperties();
         var entityProperties = typeof(T).GetProperties();
 
-        foreach (var property in dtoProperties)
+        foreach (var dtoProperty in dtoProperties)
         {
-            var entityProperty = entityProperties.FirstOrDefault(p => p.Name == property.Name);
+            var entityProperty = entityProperties.FirstOrDefault(p => p.Name == dtoProperty.Name && p.PropertyType == dtoProperty.PropertyType);
             if (entityProperty != null && entityProperty.CanWrite)
             {
-                var value = entityProperty.GetValue(entity);
-                entityProperty.SetValue(entity, value);
+                var value = dtoProperty.GetValue(dto); // Get value from DTO
+                entityProperty.SetValue(entity, value); // Set value to Entity
             }
         }
+
         return entity;
     }
+
     public static T MapToEntity<TDto,T>(TDto dto) where T : class,new()
     {
         var entity = new T();
