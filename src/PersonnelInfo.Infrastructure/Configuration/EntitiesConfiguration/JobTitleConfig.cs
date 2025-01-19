@@ -12,10 +12,11 @@ public class JobTitleConfig : IEntityTypeConfiguration<JobTitle>
 {
     void IEntityTypeConfiguration<JobTitle>.Configure(EntityTypeBuilder<JobTitle> builder)
     {
-        RelationalEntityTypeBuilderExtensions.ToTable(builder,"JobTitles");
+        RelationalEntityTypeBuilderExtensions.ToTable(builder, "JobTitles");
         builder.HasKey(e => e.Title);
         builder.Property(e => e.Title).HasMaxLength(35);
-        builder.HasOne(e=>e.Department).WithMany(e=>e.JobTitles).HasForeignKey(e=>e.DepartmentId);
+        builder.HasOne(e => e.Department).WithMany(e => e.JobTitles).HasForeignKey(e => e.DepartmentId);
+        builder.HasMany(e => e.PersonList).WithOne(e => e.JobTitle).HasForeignKey(e => e.DepartmentId);
     }
 }
 
