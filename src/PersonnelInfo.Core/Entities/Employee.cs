@@ -33,7 +33,7 @@ public class Employee
     #endregion
 
     #region Birth and Place Information
-    public DateTime BirthDate { get; set; } = DateTime.Now;
+    public DateTime? BirthDate { get; set; } = DateTime.Now;
     public long? BirthPlaceId { get; set; }
     public City? BirthPlace { get; set; }
     #endregion
@@ -54,7 +54,7 @@ public class Employee
     public string? DepartmentId { get; set; }
     public JobTitle? JobTitle { get; set; }
     public EmploymentType EmploymentTypeDisplay { get; set; } = EmploymentType.Official;
-    public DateTime StartingDate { get; set; } = DateTime.Now;
+    public DateTime? StartingDate { get; set; } = DateTime.Now;
     public DateTime? LeavingDate { get; set; }
     public long? SupervisorId { get; set; }
     public Employee? SuperVisor { get; set; }

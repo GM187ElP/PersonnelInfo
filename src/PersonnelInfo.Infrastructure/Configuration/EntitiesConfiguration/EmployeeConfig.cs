@@ -41,13 +41,11 @@ public class EmployeeConfig : IEntityTypeConfiguration<Employee>
         builder.Property(e => e.GenderDisplay).HasConversion(e => _Conversions.GenderType2String(e), e => _Conversions.String2GenderType(e));
         builder.Property(e => e.WorkingStatusDisplay).HasConversion(e => _Conversions.WorkingStatus2String(e), e => _Conversions.String2WorkingStatus(e));
 
-        builder.Property(e => e.BirthDate).HasConversion(e => _Conversions.Gregorian2Farsi(e, dateDelimiter), e => _Conversions.Farsi2Gregorian(e, dateDelimiter));
-        builder.Property(e => e.StartingDate).HasConversion(e => _Conversions.Gregorian2Farsi(e, dateDelimiter), e => _Conversions.Farsi2Gregorian(e, dateDelimiter));
-        builder.Property(e => e.LeavingDate).HasConversion(
-         e => e.HasValue ? _Conversions.Gregorian2Farsi(e.Value, dateDelimiter) : null,
-         e => string.IsNullOrEmpty(e) ? null : _Conversions.Farsi2Gregorian(e, dateDelimiter)
-     );
+        builder.Property(e => e.BirthDate).HasConversion(e => e.HasValue ? _Conversions.Gregorian2Farsi(e.Value, dateDelimiter) : null, e => string.IsNullOrEmpty(e) ? null : _Conversions.Farsi2Gregorian(e, dateDelimiter));
+        builder.Property(e => e.StartingDate).HasConversion(e => e.HasValue ? _Conversions.Gregorian2Farsi(e.Value, dateDelimiter) : null, e => string.IsNullOrEmpty(e) ? null : _Conversions.Farsi2Gregorian(e, dateDelimiter));
+        builder.Property(e => e.LeavingDate).HasConversion(e => e.HasValue ? _Conversions.Gregorian2Farsi(e.Value, dateDelimiter) : null, e => string.IsNullOrEmpty(e) ? null : _Conversions.Farsi2Gregorian(e, dateDelimiter));
 
+        
         #endregion
     }
 }

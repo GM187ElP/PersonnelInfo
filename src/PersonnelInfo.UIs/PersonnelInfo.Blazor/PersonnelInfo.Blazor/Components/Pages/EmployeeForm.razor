@@ -1,37 +1,164 @@
 ﻿@page "/employee-form"
+@using Microsoft.OpenApi.Attributes
+@using System.Reflection
 @rendermode InteractiveServer
 @inject HttpClient Http
 
 
 
-<EditForm Model=Employee OnValidSubmit=HandleValidSubmit FormName=AddEmployeeForm>
-@*     <DataAnnotationsValidator /> *@
-@*     <ValidationSummary /> *@
+<EditForm class="container " Model=Employee OnValidSubmit=HandleValidSubmit FormName=AddEmployeeForm>
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
-    <div class="form-group">
-        <label for="PersonnelCode">Personnel Code:</label>
-        <InputNumber id="PersonnelCode" @bind-Value=Employee.PersonnelCode class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="FirstName">First Name:</label>
-        <InputText id="FirstName" @bind-Value=Employee.FirstName class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="LastName">Last Name:</label>
-        <InputText id="LastName" @bind-Value=Employee.LastName class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="NationalId">National ID:</label>
-        <InputText id="NationalId" @bind-Value=Employee.NationalId class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="ContactNumber">Contact Number:</label>
-        <InputText id="ContactNumber" @bind-Value=Employee.ContactNumber class="form-control" />
-    </div>
+    <div class="row">
+        <div class="form-group mb-2 col-3">
+            <label mb-1mb-1 for="FirstName">نام</label>
+            <InputText id="FirstName" @bind-Value="Employee.FirstName" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="LastName">نام خانوادگی</label>
+            <InputText id="LastName" @bind-Value="Employee.LastName" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="NationalId">کد ملی</label>
+            <InputText id="NationalId" @bind-Value="Employee.NationalId" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="ContactNumber">شماره تماس</label>
+            <InputText id="ContactNumber" @bind-Value="Employee.ContactNumber" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="GenderDisplay">جنسیت</label>
+            <InputSelect id="GenderDisplay" @bind-Value="Employee.GenderDisplay" class="form-control">
+                <option value="0">Unknown</option>
+                <option value="1">Male</option>
+                <option value="2">Female</option>
+            </InputSelect>
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="WorkingStatusDisplay">وضعیت اشتغال</label>
+            <InputSelect id="WorkingStatusDisplay" @bind-Value="Employee.WorkingStatusDisplay" class="form-control">
+                <option value="0">Working</option>
+                <option value="1">Retired</option>
+                <option value="2">Unemployed</option>
+            </InputSelect>
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="FatherName">نام پدر</label>
+            <InputText id="FatherName" @bind-Value="Employee.FatherName" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="IsMarried">وضعیت تاهل</label>
+            <InputCheckbox id="IsMarried" @bind-Value="Employee.IsMarried" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="ChildrenCount">تعداد فرزند</label>
+            <InputNumber id="ChildrenCount" @bind-Value="Employee.ChildrenCount" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="ShenasnameNumber">شماره شناسنامه</label>
+            <InputText id="ShenasnameNumber" @bind-Value="Employee.ShenasnameNumber" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="ShenasnameSerialLetter">حرف سریال شناسنامه</label>
+            <InputText id="ShenasnameSerialLetter" @bind-Value="Employee.ShenasnameSerialLetter" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="ShenasnameSerie">سری شناسنامه</label>
+            <InputText id="ShenasnameSerie" @bind-Value="Employee.ShenasnameSerie" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="ShenasnameSerial">سریال شناسنامه</label>
+            <InputText id="ShenasnameSerial" @bind-Value="Employee.ShenasnameSerial" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="BirthDate">تاریخ تولد</label>
+            <InputDate id="BirthDate" @bind-Value="Employee.BirthDate" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="BirthPlaceId">محل تولد</label>
+            <InputNumber id="BirthPlaceId" @bind-Value="Employee.BirthPlaceId" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="ShenasnameIssuedPlaceId">محل صدور شناسنامه</label>
+            <InputNumber id="ShenasnameIssuedPlaceId" @bind-Value="Employee.ShenasnameIssuedPlaceId" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="InsurranceCode">کد بیمه</label>
+            <InputText id="InsurranceCode" @bind-Value="Employee.InsurranceCode" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="InsurranceStatus">وضعیت بیمه</label>
+            <InputText id="InsurranceStatus" @bind-Value="Employee.InsurranceStatus" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="HasInsurance">بیمه دارد؟</label>
+            <InputCheckbox id="HasInsurance" @bind-Value="Employee.HasInsurance" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="ExtraInsurranceCount">تعداد بیمه‌تکمیلی</label>
+            <InputNumber id="ExtraInsurranceCount" @bind-Value="Employee.ExtraInsurranceCount" class="form-control" />
+        </div>
+
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="DepartmentId">واحد</label>
+            <InputText id="DepartmentId" @bind-Value="Employee.DepartmentId" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="EmploymentTypeDisplay">نوع استخدام</label>
+            <InputSelect id="EmploymentTypeDisplay" @bind-Value="Employee.EmploymentTypeDisplay" class="form-control">
+                <option value="0">Unknown</option>
+                <option value="1">Male</option>
+                <option value="2">Female</option>
+            </InputSelect>
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="StartingDate">تاریخ شروع به کار</label>
+            <InputDate id="StartingDate" @bind-Value="Employee.StartingDate" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="LeavingDate">تاریخ پایان کار</label>
+            <InputDate id="LeavingDate" @bind-Value="Employee.LeavingDate" class="form-control" />
+        </div>
+        
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="InternalContactNumber">شماره تماس داخلی</label>
+            <InputText id="InternalContactNumber" @bind-Value="Employee.InternalContactNumber" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="LandPhoneNumber">شماره تلفن ثابت</label>
+            <InputText id="LandPhoneNumber" @bind-Value="Employee.LandPhoneNumber" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="Address">آدرس</label>
+            <InputText id="Address" @bind-Value="Employee.Address" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="PostalCode">کد پستی</label>
+            <InputText id="PostalCode" @bind-Value="Employee.PostalCode" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="MostRecentDegree">آخرین مدرک تحصیلی</label>
+            <InputText id="MostRecentDegree" @bind-Value="Employee.MostRecentDegree" class="form-control" />
+        </div>
+        <div class="form-group mb-2 col-3">
+            <label mb-1for="Major">رشته تحصیلی</label>
+            <InputText id="Major" @bind-Value="Employee.Major" class="form-control" />
+        </div>
+
+        <div class="row">
+            <div class="col-3 mb-2">
 
     <button type="submit" class="btn btn-primary" disabled=@IsSubmitting>
-        @(IsSubmitting ? "Submitting..." : "Add Employee")
+        @(IsSubmitting ? "در حال بارگزاری..." : "اضافه کردن")
     </button>
+            </div>
+        </div>
+
+        <!-- Repeat for remaining properties -->
+    </div>
+
+
 </EditForm>
 
 @if (SuccessMessage != null)
@@ -47,6 +174,7 @@
 @code {
     [SupplyParameterFromForm]
     public AddEmployeeDto Employee { get; set; }
+    private Dictionary<string, string> DisplayNames = new();
 
     private string? SuccessMessage;
     private string? ErrorMessage;
@@ -54,58 +182,63 @@
 
     protected override void OnInitialized()
     {
+        // DisplayNames = typeof(AddEmployeeDto).GetProperties()
+        //     .Where(p => Attribute.IsDefined(p, typeof(DisplayAttribute)))
+        //     .ToDictionary(
+        //         p => p.Name,
+        //         p => ((DisplayAttribute)p.GetCustomAttribute(typeof(DisplayAttribute))!).Name!);
+
         Employee = new AddEmployeeDto
             {
-                
-                
-                    // Basic Information
-                    PersonnelCode = 0,
-                    FirstName = string.Empty,
-                    LastName = string.Empty,
-                    NationalId = string.Empty,
-                    ContactNumber = string.Empty,
 
-                    // Gender and Status
-               
 
-                    // Family Information
-                    FatherName = string.Empty,
-          
+                // Basic Information
+                PersonnelCode = 0,
+                FirstName = string.Empty,
+                LastName = string.Empty,
+                NationalId = string.Empty,
+                ContactNumber = string.Empty,
 
-                    // Identity Information
-                    ShenasnameNumber = string.Empty,
-                    ShenasnameSerialLetter = string.Empty,
-                    ShenasnameSerie = string.Empty,
-                    ShenasnameSerial = string.Empty,
+                // Gender and Status
 
-                    // Birth and Place Information
-                    BirthDate = DateTime.Now,
-                    BirthPlaceId = null,
 
-                    // Shenasname Issuance Information
-                    ShenasnameIssuedPlaceId = null,
+                // Family Information
+                FatherName = string.Empty,
 
-                    // Insurance Information
-                    InsurranceCode = string.Empty,
-                    InsurranceStatus = string.Empty,
-                    HasInsurance = null,
-                 
 
-                    // Employment Information
-                    DepartmentId = null,
-                    LeavingDate = DateTime.Now,
-                    SupervisorId = 0,
+                // Identity Information
+                ShenasnameNumber = string.Empty,
+                ShenasnameSerialLetter = string.Empty,
+                ShenasnameSerie = string.Empty,
+                ShenasnameSerial = string.Empty,
 
-                    // Contact Information
-                    InternalContactNumber = string.Empty,
-                    LandPhoneNumber = string.Empty,
-                    Address = string.Empty,
-                    PostalCode = string.Empty,
+                // Birth and Place Information
+                BirthDate = DateTime.Now,
+                BirthPlaceId = null,
 
-                    // Academic Information
-                    MostRecentDegree = string.Empty,
-                    Major = string.Empty
-                
+                // Shenasname Issuance Information
+                ShenasnameIssuedPlaceId = null,
+
+                // Insurance Information
+                InsurranceCode = string.Empty,
+                InsurranceStatus = string.Empty,
+                HasInsurance = true,
+
+
+                // Employment Information
+                DepartmentId = null,
+                LeavingDate = DateTime.Now,
+
+                // Contact Information
+                InternalContactNumber = string.Empty,
+                LandPhoneNumber = string.Empty,
+                Address = string.Empty,
+                PostalCode = string.Empty,
+
+                // Academic Information
+                MostRecentDegree = string.Empty,
+                Major = string.Empty
+
 
             };
     }

@@ -47,18 +47,20 @@ namespace PersonnelInfo.Infrastructure.Configuration.EntitiesConfiguration
             };
         }
 
-        public static string Gregorian2Farsi(DateTime gregorianDate, char delimiter)
+        public static string? Gregorian2Farsi(DateTime? gregorianDate, char delimiter)
         {
+            if (gregorianDate == null) return null;
             var farsiCalendar = new PersianCalendar();
-            if(gregorianDate<new DateTime(622,3,22)) throw new ArgumentOutOfRangeException();
-            
-            var date = (farsiCalendar.GetYear(gregorianDate), farsiCalendar.GetMonth(gregorianDate), farsiCalendar.GetDayOfMonth(gregorianDate));
+            if (gregorianDate < new DateTime(622, 3, 22)) throw new ArgumentOutOfRangeException();
+
+            var date = (farsiCalendar.GetYear((DateTime)gregorianDate), farsiCalendar.GetMonth((DateTime)gregorianDate), farsiCalendar.GetDayOfMonth((DateTime)gregorianDate));
             return $"{date.Item1}{delimiter}{date.Item2:D2}{delimiter}{date.Item3:D2}";
 
         }
 
-        public static DateTime Farsi2Gregorian(string farsiDate, char delimiter)
+        public static DateTime? Farsi2Gregorian(string? farsiDate, char delimiter)
         {
+            if (farsiDate == null) return null;
             var farsiCalendar = new PersianCalendar();
             string[] dateParts = farsiDate.Split(delimiter);
             if (dateParts.Length != 3) throw new WrongDateFormat("Invalid date format");
@@ -91,4 +93,3 @@ namespace PersonnelInfo.Infrastructure.Configuration.EntitiesConfiguration
         }
     }
 }
-﻿
