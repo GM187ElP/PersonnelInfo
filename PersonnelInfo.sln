@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonnelInfo.Blazor", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonnelInfo.Blazor.Client", "src\PersonnelInfo.UIs\PersonnelInfo.Blazor\PersonnelInfo.Blazor.Client\PersonnelInfo.Blazor.Client.csproj", "{3C31F892-99F9-4DF4-B1AA-C84715313A7B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonnelInfo.Mvc", "PersonnelInfo.Mvc\PersonnelInfo.Mvc.csproj", "{E1864B36-E184-4117-A6FC-DFD507C4F7FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{3C31F892-99F9-4DF4-B1AA-C84715313A7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C31F892-99F9-4DF4-B1AA-C84715313A7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C31F892-99F9-4DF4-B1AA-C84715313A7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1864B36-E184-4117-A6FC-DFD507C4F7FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1864B36-E184-4117-A6FC-DFD507C4F7FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1864B36-E184-4117-A6FC-DFD507C4F7FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1864B36-E184-4117-A6FC-DFD507C4F7FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,5 +104,6 @@ Global
 		{67CF3FAB-10AF-4C07-9AAD-94CD7395C775} = {6BC99D44-70F5-4277-9DB7-D3503A532AEE}
 		{E35A9C76-2CE4-4CBB-AC42-1C0A8CB3DDA3} = {6077531A-09C8-4E03-A356-964F799B13A7}
 		{3C31F892-99F9-4DF4-B1AA-C84715313A7B} = {6077531A-09C8-4E03-A356-964F799B13A7}
+		{E1864B36-E184-4117-A6FC-DFD507C4F7FE} = {6077531A-09C8-4E03-A356-964F799B13A7}
 	EndGlobalSection
 EndGlobal
