@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using PersonnelInfo.Application.Services;
 using PersonnelInfo.Core.Entities;
@@ -45,13 +46,21 @@ public class EmployeeController : ControllerBase
     
 
     // POST api/<EmployeeController>
-    [HttpPost]
-    [Route("Add")]
-    public async Task<IActionResult> Add([FromBody] AddEmployeeDto addDto, CancellationToken cancellationToken = default)
+    //[HttpPost]
+    //[Route("Add")]
+    //public async Task<IActionResult> Add([FromBody] AddEmployeeDto addDto, CancellationToken cancellationToken = default)
+    //{
+    //    var isAdded=await _services.AddAsync(addDto, cancellationToken);
+    //    if (isAdded) return  CreatedAtAction(nameof(GetById), new { id =  _services.GetByNationalId(addDto.NationalId).Id }, new { message = $"Employee with name: {addDto.FirstName} {addDto.LastName} is added successfully." });
+    //    return BadRequest(new { message = "Failed to add the employee. Please check the provided data." });
+    //}
+
+    [HttpGet]
+    [Route("GetAll")]
+    public async Task<IActionResult> GetAll()
     {
-        var isAdded=await _services.AddAsync(addDto, cancellationToken);
-        if (isAdded) return  CreatedAtAction(nameof(GetById), new { id =  _services.GetByNationalId(addDto.NationalId).Id }, new { message = $"Employee with name: {addDto.FirstName} {addDto.LastName} is added successfully." });
-        return BadRequest(new { message = "Failed to add the employee. Please check the provided data." });
+        var employees = await _services.GetAllAsync();
+        return Ok(employees);
     }
 
     //// PUT api/<EmployeeController>/5

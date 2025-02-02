@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace PersonnelInfo.Application.Interfaces.Entities;
 
-public interface IStartLeaveHistory
+public interface IStartLeaveHistoryRepository
 {
     Task AddAsync(StartLeaveHistory entity, CancellationToken cancellationToken = default);
     Task DeleteByIdAsync(string id, CancellationToken cancellationToken = default);

@@ -1,7 +1,13 @@
+using PersonnelInfo.Mvc.Models.Filters;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<ValidateFilter>();
+});
+    
 
 builder.Services.AddHttpClient("API", client =>
 {

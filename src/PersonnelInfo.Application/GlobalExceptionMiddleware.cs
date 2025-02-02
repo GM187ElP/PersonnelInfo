@@ -60,5 +60,4 @@ public class GlobalExceptionMiddleware : IMiddleware
         context.Response.StatusCode = (int)statusCode;
         return context.Response.WriteAsync(JsonSerializer.Serialize(response));
     }
-
 }

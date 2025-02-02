@@ -21,4 +21,8 @@
     <ProjectReference Include="..\PersonnelInfo.Infrastructure\PersonnelInfo.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Filters\" />
+  </ItemGroup>
+
 </Project>

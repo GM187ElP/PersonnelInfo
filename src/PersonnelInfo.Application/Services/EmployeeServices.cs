@@ -13,32 +13,49 @@ public class EmployeeServices : IEmployeeServices
     private readonly IEmployeeRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public EmployeeServices(IEmployeeRepository repository, IUnitOfWork unitOfWork)
+    public EmployeeServices(IEmployeeRepository repository,IStartLeaveHistoryRepository startLeaveHistoryRepository, IUnitOfWork unitOfWork)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public async Task<bool> AddAsync(AddEmployeeDto addDto, CancellationToken cancellationToken = default)
+    public async Task<List<EmployeeDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        var existedEntity = await _repository.NationalIdExistAsync(addDto.NationalId, cancellationToken);
-        if (existedEntity==null)
-        {
-            var entity = Mapper.MapToEntity(addDto, new Employee());
-            entity.PersonnelCode = await _repository.MaxPersonnelCodeAsync(cancellationToken) + 1;
-
-            await _unitOfWork.ExecuteInTransactionAsync(async _ =>
-            {
-                await _repository.AddAsync(entity, cancellationToken);
-            }, cancellationToken);
-
-            if (await _repository.NationalIdExistAsync(addDto.NationalId, cancellationToken)!=null) return true;
-
-            else throw new EntityAdditionFailedException($"Failed to add the {typeof(Employee).Name} due to an unknown reason.");
-        }
-        throw new DuplicateEntityException($"An {typeof(Employee).Name} with the same NationalId already exists.");
-
+        var entityList = await _repository.GetAllAsync(cancellationToken);
+        if (!entityList.Any()) throw new NotFoundEntity(typeof(Employee));
+        return entityList.Select(e => Mapper.MapToDto(e, new EmployeeDto())).ToList();
     }
+
+    //public async Task<bool> AddAsync(AddEmployeeDto addDto, CancellationToken cancellationToken = default)
+    //{
+    //    var existedEntity = await _repository.NationalIdExistAsync(addDto.NationalId, cancellationToken);
+    //    if (existedEntity==null)
+    //    {
+    //        var entity = Mapper.MapToEntity(addDto, new Employee());
+    //        entity.PersonnelCode = await _repository.MaxPersonnelCodeAsync(cancellationToken) + 1;
+
+
+    //        await _unitOfWork.ExecuteInTransactionAsync(async _ =>
+    //        {
+    //            await _repository.AddAsync(entity, cancellationToken);
+    //            await _unitOfWork.SaveChangesAsync();
+
+    //            var startLeaveHistory = new StartLeaveHistory()
+    //            {
+    //                StartedDate = addDto.StartingDate,
+    //                JobTitle = addDto.DepartmentId,
+    //                EmployeeId=entity.Id
+    //            };
+    //            entity.StartLeftHistories.Add(startLeaveHistory);
+    //        }, cancellationToken);
+
+    //        if (await _repository.NationalIdExistAsync(addDto.NationalId, cancellationToken)!=null) return true;
+
+    //        else throw new EntityAdditionFailedException($"Failed to add the {typeof(Employee).Name} due to an unknown reason.");
+    //    }
+    //    throw new DuplicateEntityException($"An {typeof(Employee).Name} with the same NationalId already exists.");
+
+    //}
 
     public async Task DeleteByIdAsync(long id, CancellationToken cancellationToken = default)
     {
@@ -56,14 +73,6 @@ public class EmployeeServices : IEmployeeServices
         {
             await _repository.DeleteAsync(entity, cancellationToken);
         }, cancellationToken);
-    }
-
-    public async Task<List<EmployeeDto>> GetAllAsync(CancellationToken cancellationToken = default)
-    {
-        var entityList = await _repository.GetAllAsync(cancellationToken);
-        if (!entityList.Any()) throw new NotFoundEntity(typeof(Employee));
-
-        return entityList.Select(e => Mapper.MapToDto(e, new EmployeeDto())).ToList();
     }
 
     public async Task<EmployeeDto> GetByIdAsync(long id, CancellationToken cancellationToken = default)

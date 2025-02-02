@@ -1,53 +1,44 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using PersonnelInfo.Infrastructure.Configuration;
-using PersonnelInfo.Application;  // Add your interface references
+using PersonnelInfo.Application;
+using PersonnelInfo.API.Models;  
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers(); 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
-// Register Autofac modules and services
+
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
-    containerBuilder.RegisterModule(new ProjectModule()); // Your Autofac module (e.g. ProjectModule)
+    containerBuilder.RegisterModule(new ProjectModule()); 
 });
 
-// Register OpenAPI
 builder.Services.AddOpenApi();
 
-// Add any other necessary services (e.g. logging, authentication)
 builder.Services.AddLogging();
 builder.Services.AddAuthentication();
-builder.Services.AddTransient<GlobalExceptionMiddleware>();
+builder.Services.AddSwaggerGen();
 
-// Add the middleware manually
 var app = builder.Build();
 
-// 1. Global exception handling middleware (at the beginning)
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger(); 
     app.UseSwaggerUI(o =>
     {
-        o.SwaggerEndpoint("/openapi/v1.json", "PersonnelInfo");
+        o.SwaggerEndpoint("/swagger/v1/swagger.json", "PersonnelInfo");
     });
+
+    app.MapOpenApi(); 
 }
 
-//app.UseMiddleware<EncryptDecryptIdMiddleware>();
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
-// 2. Encryption/Decryption middleware (after exception handling)
 
-// 3. Standard middleware (HTTPS, Authorization, etc.)
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
-// 4. Map controllers after all other middleware
 app.MapControllers();
 
 app.Run();

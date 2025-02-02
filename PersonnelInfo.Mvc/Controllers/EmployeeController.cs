@@ -7,6 +7,7 @@ public class EmployeeController : Controller
 {
     private readonly ILogger<EmployeeController> _logger;
     private readonly IHttpClientFactory _clientFactory;
+
     public EmployeeController(ILogger<EmployeeController> logger, IHttpClientFactory clientFactory)
     {
         _clientFactory = clientFactory;
@@ -15,7 +16,7 @@ public class EmployeeController : Controller
     public async Task<IActionResult> Index()
     {
         var client = _clientFactory.CreateClient("API");
-        var response = await client.GetAsync("Employee/GetAll");
+        var response = await client.GetAsync("api/Employee/GetAll");
 
         if (response.IsSuccessStatusCode)
         {
