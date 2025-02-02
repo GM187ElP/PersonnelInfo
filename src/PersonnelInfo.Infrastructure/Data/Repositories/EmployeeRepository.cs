@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using PersonnelInfo.Application.Interfaces.Entities;
 using PersonnelInfo.Core.Entities;
 using System.Linq;
@@ -8,9 +9,11 @@ public class EmployeeRepository : IEmployeeRepository
 {
     private readonly DbSet<Employee> _dbSet;
     private readonly DbContext _context;
+    private readonly string? _connectionString;
 
     public EmployeeRepository(DbContext context)
     {
+        _connectionString= context.Database.GetConnectionString();
         _context = context;
         _dbSet = _context.Set<Employee>();
     }
@@ -25,6 +28,12 @@ public class EmployeeRepository : IEmployeeRepository
 
     public async Task<List<Employee>> GetAllAsync(CancellationToken cancellationToken = default)
     {
+        //using(var connection=new SqlConnection(_connectionString))
+        //{
+        //    await connection.OpenAsync();
+        //    var script="SELECT E,CP,S,B * FROM Employee AS E INNERJOIN ON E."
+        //};
+
         var entities = await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
         return entities;
     }
@@ -48,14 +57,12 @@ public class EmployeeRepository : IEmployeeRepository
 
     public async Task<long> MaxPersonnelCodeAsync(CancellationToken cancellationToken = default)
     {
-        // Fetch the records from the database
         var employees = await _dbSet
             .Where(e => e.PersonnelCode < 20000)
-            .ToListAsync(cancellationToken); // Load into memory first
+            .ToListAsync(cancellationToken); 
 
-        // If there are no employees, use a default value
         var max = employees.DefaultIfEmpty(new Employee { PersonnelCode = 0 })
-                           .Max(e => e.PersonnelCode); // Get max from in-memory data
+                           .Max(e => e.PersonnelCode); 
 
         return max;
     }
