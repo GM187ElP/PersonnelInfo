@@ -22,7 +22,7 @@ public class ProjectModule : Module
         builder.RegisterType<EmployeeRepository>().As<IEmployeeRepository>().InstancePerLifetimeScope();
         builder.RegisterType<StartLeaveHistoryRepository>().As<IStartLeaveHistoryRepository>().InstancePerLifetimeScope();
         builder.RegisterType<BankNameRepository>().As<IBankNameRepository>().InstancePerLifetimeScope();
-        builder.RegisterType<CityRepository>().As<ICityRepository>().InstancePerLifetimeScope();
+        //builder.RegisterType<CityRepository>().As<ICityRepository>().InstancePerLifetimeScope();
         builder.RegisterType<JobTitleRepository>().As<IJobTitleRepository>().InstancePerLifetimeScope();
 
         builder.RegisterType<EmployeeServices>().As<IEmployeeServices>().InstancePerLifetimeScope();

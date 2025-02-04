@@ -2,7 +2,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using PersonnelInfo.Infrastructure.Configuration;
 using PersonnelInfo.Application;
-using PersonnelInfo.API.Models;  
+using PersonnelInfo.Infrastructure.Data.Seeders;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers(); 
@@ -40,5 +40,16 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+#region infrastructure methods
+await using var scope = app.Services.CreateAsyncScope();
+var databaseContext=scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+//await databaseContext.Database.EnsureDeletedAsync();
+//await databaseContext.Database.EnsureCreatedAsync():
+//var citySeeder = scope.ServiceProvider.GetRequiredService<CitySeeder>();
+//var jobTitleSeeder = scope.ServiceProvider.GetRequiredService<JobTitleSeeder>();
+//await citySeeder.SeedCitiesFromJson();
+//await jobTitleSeeder.SeedJobTitlesFromJson();
+#endregion
 
 app.Run();

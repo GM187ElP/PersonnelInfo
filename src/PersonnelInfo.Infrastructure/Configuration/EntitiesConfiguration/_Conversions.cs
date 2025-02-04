@@ -6,13 +6,13 @@ namespace PersonnelInfo.Infrastructure.Configuration.EntitiesConfiguration
 {
     public class _Conversions
     {
-        public static string GenderType2String(GenderType? gender = GenderType.Unknown)
+        public static string GenderType2String(GenderType? gender = GenderType.NotSelected)
         {
             return gender switch
             {
                 GenderType.Male => "آقای",
                 GenderType.Female => "خانم",
-                GenderType.Unknown => "نامشخص",
+                GenderType.NotSelected => "نامشخص",
                 _ => throw new NotImplementedException()
             };
         }
@@ -22,7 +22,7 @@ namespace PersonnelInfo.Infrastructure.Configuration.EntitiesConfiguration
             {
                 "آقای" => GenderType.Male,
                 "خانم" => GenderType.Female,
-                "نامشخص" => GenderType.Unknown,
+                "نامشخص" => GenderType.NotSelected,
                 _ => throw new NotImplementedException()
             };
         }

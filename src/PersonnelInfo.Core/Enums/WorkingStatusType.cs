@@ -1,6 +1,8 @@
-﻿namespace PersonnelInfo.Core.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PersonnelInfo.Core.Enums;
 
 public enum WorkingStatusType
 {
-    Working, Left
+    [Display(Name = "انتخاب نشده")] NotSelected, [Display(Name = "در حال کار")] Working, [Display(Name = "ترک کار")] Left
 }

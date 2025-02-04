@@ -16,24 +16,24 @@ public class CityServices : ICityServices
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public async Task AddAsync(AddCityDto addDto, CancellationToken cancellationToken = default)
-    {
-        var _entity = new City();
-        _entity = Mapper.MapToEntity(addDto, _entity);
+    //public async Task AddAsync(AddCityDto addDto, CancellationToken cancellationToken = default)
+    //{
+    //    var _entity = new City();
+    //    _entity = Mapper.MapToEntity(addDto, _entity);
 
-        await _unitOfWork.ExecuteInTransactionAsync(async (tc) =>
-        {
-            await _repository.AddAsync(_entity, cancellationToken);
-        }, cancellationToken);
-    }
+    //    await _unitOfWork.ExecuteInTransactionAsync(async (tc) =>
+    //    {
+    //        await _repository.AddAsync(_entity, cancellationToken);
+    //    }, cancellationToken);
+    //}
 
-    public async Task DeleteByIdAsync(long id, CancellationToken cancellationToken = default)
-    {
-        await _unitOfWork.ExecuteInTransactionAsync(async (tc) =>
-        {
-            await _repository.DeleteByIdAsync(id, cancellationToken);
-        }, cancellationToken);
-    }
+    //public async Task DeleteByIdAsync(long id, CancellationToken cancellationToken = default)
+    //{
+    //    await _unitOfWork.ExecuteInTransactionAsync(async (tc) =>
+    //    {
+    //        await _repository.DeleteByIdAsync(id, cancellationToken);
+    //    }, cancellationToken);
+    //}
 
     public async Task<List<CityDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
@@ -49,13 +49,13 @@ public class CityServices : ICityServices
         return Mapper.MapToDto(entity, new CityDto());
     }
 
-    public async Task UpdateAsync(CityDto updateDto, CancellationToken cancellationToken = default)
-    {
-        var entity = Mapper.MapToEntity(updateDto, new City());
+    //public async Task UpdateAsync(CityDto updateDto, CancellationToken cancellationToken = default)
+    //{
+    //    var entity = Mapper.MapToEntity(updateDto, new City());
 
-        await _unitOfWork.ExecuteInTransactionAsync(async (tc) =>
-        {
-            await _repository.UpdateAsync(entity, cancellationToken);
-        }, cancellationToken);
-    }
+    //    await _unitOfWork.ExecuteInTransactionAsync(async (tc) =>
+    //    {
+    //        await _repository.UpdateAsync(entity, cancellationToken);
+    //    }, cancellationToken);
+    //}
 }

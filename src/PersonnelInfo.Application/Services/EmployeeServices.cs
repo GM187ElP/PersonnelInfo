@@ -26,36 +26,29 @@ public class EmployeeServices : IEmployeeServices
         return entityList.Select(e => Mapper.MapToDto(e, new EmployeeDto())).ToList();
     }
 
-    //public async Task<bool> AddAsync(AddEmployeeDto addDto, CancellationToken cancellationToken = default)
-    //{
-    //    var existedEntity = await _repository.NationalIdExistAsync(addDto.NationalId, cancellationToken);
-    //    if (existedEntity==null)
-    //    {
-    //        var entity = Mapper.MapToEntity(addDto, new Employee());
-    //        entity.PersonnelCode = await _repository.MaxPersonnelCodeAsync(cancellationToken) + 1;
+    public async Task<bool> AddAsync(AddEmployeeDto addDto, CancellationToken cancellationToken = default)
+    {
+        var existedEntity = await _repository.NationalIdExistAsync(addDto.NationalId, cancellationToken);
+        if (existedEntity == null)
+        {
+            var entity = Mapper.MapToEntity(addDto, new Employee());
+            entity.PersonnelCode = await _repository.MaxPersonnelCodeAsync(cancellationToken) + 1;
 
+            await _unitOfWork.ExecuteInTransactionAsync(async _ =>
+            {
+                await _repository.AddAsync(entity, cancellationToken);
+                await _unitOfWork.SaveChangesAsync();
 
-    //        await _unitOfWork.ExecuteInTransactionAsync(async _ =>
-    //        {
-    //            await _repository.AddAsync(entity, cancellationToken);
-    //            await _unitOfWork.SaveChangesAsync();
+                var startLeaveHistory = new StartLeaveHistory();
+                entity.StartLeftHistories.Add(startLeaveHistory);
+            }, cancellationToken);
 
-    //            var startLeaveHistory = new StartLeaveHistory()
-    //            {
-    //                StartedDate = addDto.StartingDate,
-    //                JobTitle = addDto.DepartmentId,
-    //                EmployeeId=entity.Id
-    //            };
-    //            entity.StartLeftHistories.Add(startLeaveHistory);
-    //        }, cancellationToken);
+            if (await _repository.NationalIdExistAsync(addDto.NationalId, cancellationToken) != null) return true;
 
-    //        if (await _repository.NationalIdExistAsync(addDto.NationalId, cancellationToken)!=null) return true;
-
-    //        else throw new EntityAdditionFailedException($"Failed to add the {typeof(Employee).Name} due to an unknown reason.");
-    //    }
-    //    throw new DuplicateEntityException($"An {typeof(Employee).Name} with the same NationalId already exists.");
-
-    //}
+            else throw new EntityAdditionFailedException($"Failed to add the {typeof(Employee).Name} due to an unknown reason.");
+        }
+        throw new DuplicateEntityException($"An {typeof(Employee).Name} with the same NationalId already exists.");
+    }
 
     public async Task DeleteByIdAsync(long id, CancellationToken cancellationToken = default)
     {

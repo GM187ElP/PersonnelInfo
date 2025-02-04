@@ -4,7 +4,7 @@ namespace PersonnelInfo.Infrastructure;
 
 public static class EntityValidationHelper<T> where T : class
 {
-    public static List<string> ValidateEntity<T>(T entity, DbContext context) where T : class
+    public static List<string> ValidateEntity(T entity, DbContext context) 
     {
         var errors = new List<string>();
         var entityType = context.Model.FindEntityType(typeof(T));
@@ -21,9 +21,9 @@ public static class EntityValidationHelper<T> where T : class
             var value = clrProperty.GetValue(entity);
 
             // Check MaxLength
-            if (property.GetMaxLength().HasValue && value is string strValue && strValue.Length > property.GetMaxLength().Value)
+            if (property.GetMaxLength().HasValue && value is string strValue && strValue.Length > property.GetMaxLength()!.Value)
             {
-                errors.Add($"{property.Name} exceeds maximum length of {property.GetMaxLength().Value}.");
+                errors.Add($"{property.Name} exceeds maximum length of {property.GetMaxLength()!.Value}.");
             }
 
             // Check Required

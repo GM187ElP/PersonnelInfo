@@ -3,7 +3,7 @@ using PersonnelInfo.Application.Interfaces.Entities;
 using PersonnelInfo.Core.Entities;
 
 namespace PersonnelInfo.Infrastructure.Data.Repositories;
-public class CityRepository : ICityRepository
+public class CityRepository /*: ICityRepository*/
 {
     private readonly DbSet<City> _dbSet;
     private readonly DbContext _context;
@@ -14,27 +14,21 @@ public class CityRepository : ICityRepository
         _dbSet = _context.Set<City>();
     }
 
-    public async Task AddAsync(City entity, CancellationToken cancellationToken = default) =>
-        await _dbSet.AddAsync(entity, cancellationToken);
+    //public async Task<Dictionary<string,string>> GetAllAsync(CancellationToken cancellationToken = default)
+    //{
+    //    return await _dbSet.AsNoTracking()
+    //    .Where(c => c.ProvinceId != null) // Get only cities
+    //    .GroupBy(c => c.ProvinceId) // Group by ProvinceId
+    //    .Select(g => new
+    //    {
+    //        Province = _dbSet.First(p => p.Id == g.Key).Name, // Get province name
+    //        Cities = g.Select(c => c.Name).ToList() // Get city names
+    //    })
+    //    .ToDictionaryAsync(g => g.Province, g => g.Cities, cancellationToken);
 
-    public async Task DeleteByIdAsync(long id, CancellationToken cancellationToken = default)
-    {
-        var entity = await _dbSet.FindAsync(id, cancellationToken);
-        _dbSet.Remove(entity);
-    }
-
-    public async Task<List<City>> GetAllAsync(CancellationToken cancellationToken = default)
-    {
-        var entities = await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
-        return entities;
-    }
+    //    return entities;
+    //}
 
     public async Task<City> GetByIdAsync(long id, CancellationToken cancellationToken = default) =>
         await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
-
-    public async Task UpdateAsync(City entity, CancellationToken cancellationToken = default)
-    {
-        var existingEntity = await _dbSet.FindAsync(new object[] { entity.Id }, cancellationToken);
-        _context.Entry(existingEntity).CurrentValues.SetValues(entity);
-    }
 }

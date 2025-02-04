@@ -23,7 +23,7 @@ public class EmployeeRepository : IEmployeeRepository
 
     public async Task DeleteAsync(Employee entity, CancellationToken cancellationToken = default)
     {
-        _dbSet.Remove(entity);
+       _dbSet.Remove(entity);
     }
 
     public async Task<List<Employee>> GetAllAsync(CancellationToken cancellationToken = default)

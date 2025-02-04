@@ -1,6 +1,8 @@
-﻿namespace PersonnelInfo.Core.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PersonnelInfo.Core.Enums;
 
 public enum EmploymentType
 {
-    Official, Contract
+    [Display(Name = "انتخاب نشده")] NotSelected, [Display(Name = "رسمی")] Official, [Display(Name = "پیمانی")] Contract
 }

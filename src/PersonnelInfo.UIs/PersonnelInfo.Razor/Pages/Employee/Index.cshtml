@@ -1,0 +1,17 @@
+﻿@page
+@model PersonnelInfo.Razor.Pages.Employee.IndexModel
+@{
+}
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            @foreach (var item in Model.Headers)
+            {
+                <th>@item</th>
+            }
+        </tr>
+    </thead>
+</table>
