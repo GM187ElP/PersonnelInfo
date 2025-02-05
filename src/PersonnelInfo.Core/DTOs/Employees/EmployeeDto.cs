@@ -12,7 +12,7 @@ public class EmployeeDto : EmployeeBaseDto
 
     #region Basic Information
     [Display(Name = "کد پرسنلی")]
-    public int PersonnelCode { get; set; }
+    public long PersonnelCode { get; set; }
 
     [Display(Name = "نام")]
     [StringLength(21, ErrorMessage = "نام نباید بیشتر از {0} کاراکتر باشد.")]

@@ -4,14 +4,28 @@
 }
 
 
-
-<table class="table">
-    <thead>
-        <tr>
-            @foreach (var item in Model.Headers)
+<div class="container">
+    <table class="table text-center">
+        <thead>
+            <tr>
+                @foreach (var item in Model.Headers)
+                {
+                    <th>@item</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Model.Employees)
             {
-                <th>@item</th>
+                <tr>
+                    @foreach (var prop in Model.DtoProperties)
+                    {
+                        <th><input name="@prop.Name" value="@Model.GetType().GetProperty(prop.Name)?.GetValue(employee)" class="form-control" /></th>
+                    }
+
+                </tr>
             }
-        </tr>
-    </thead>
-</table>
+        </tbody>
+    </table>
+</div>
+                    @Html.EditorForModel()

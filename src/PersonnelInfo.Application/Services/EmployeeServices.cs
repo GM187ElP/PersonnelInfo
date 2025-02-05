@@ -23,7 +23,8 @@ public class EmployeeServices : IEmployeeServices
     {
         var entityList = await _repository.GetAllAsync(cancellationToken);
         if (!entityList.Any()) throw new NotFoundEntity(typeof(Employee));
-        return entityList.Select(e => Mapper.MapToDto(e, new EmployeeDto())).ToList();
+        var a= entityList.Select(e => Mapper.MapToDto(e, new EmployeeDto())).ToList();
+        return a;
     }
 
     public async Task<bool> AddAsync(AddEmployeeDto addDto, CancellationToken cancellationToken = default)

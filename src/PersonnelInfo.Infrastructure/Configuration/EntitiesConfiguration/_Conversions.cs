@@ -12,17 +12,17 @@ namespace PersonnelInfo.Infrastructure.Configuration.EntitiesConfiguration
             {
                 GenderType.Male => "آقای",
                 GenderType.Female => "خانم",
-                GenderType.NotSelected => "نامشخص",
+                GenderType.NotSelected => "انتخاب نشده",
                 _ => throw new NotImplementedException()
             };
         }
-        public static GenderType String2GenderType(string? gender = "نامشخص")
+        public static GenderType String2GenderType(string? gender = "انتخاب نشده")
         {
             return gender switch
             {
                 "آقای" => GenderType.Male,
                 "خانم" => GenderType.Female,
-                "نامشخص" => GenderType.NotSelected,
+                "انتخاب نشده" => GenderType.NotSelected,
                 _ => throw new NotImplementedException()
             };
         }
@@ -33,16 +33,18 @@ namespace PersonnelInfo.Infrastructure.Configuration.EntitiesConfiguration
             {
                 WorkingStatusType.Working => "سر کار",
                 WorkingStatusType.Left => "ترک کار",
+                WorkingStatusType.NotSelected => "انتخاب نشده",
                 _ => throw new NotImplementedException()
             };
         }
 
-        public static WorkingStatusType String2WorkingStatus(string? WorkingStatus = "سر کار")
+        public static WorkingStatusType String2WorkingStatus(string? WorkingStatus = "انتخاب نشده")
         {
             return WorkingStatus switch
             {
                 "سر کار" => WorkingStatusType.Working,
                 "ترک کار" => WorkingStatusType.Left,
+                "انتخاب نشده" => WorkingStatusType.NotSelected,
                 _ => throw new NotImplementedException()
             };
         }
@@ -72,22 +74,24 @@ namespace PersonnelInfo.Infrastructure.Configuration.EntitiesConfiguration
             return date;
         }
 
-        public static string NoteType2String(NoteType type)
+        public static string NoteType2String(NoteType type = NoteType.NotSelected)
         {
             return type switch
             {
                 NoteType.Checque => "چک",
                 NoteType.PromissionaryNote => "سفته",
+                NoteType.NotSelected => "انتخاب نشده",
                 _ => throw new NotImplementedException()
             };
         }
 
-        public static NoteType String2NoteType(string type)
+        public static NoteType String2NoteType(string type = "انتخاب نشده")
         {
             return type switch
             {
                 "چک" => NoteType.Checque,
                 "سفته" => NoteType.PromissionaryNote,
+                "انتخاب نشده" => NoteType.NotSelected,
                 _ => throw new NotImplementedException()
             };
         }
