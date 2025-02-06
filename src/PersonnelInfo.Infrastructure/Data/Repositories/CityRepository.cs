@@ -14,19 +14,20 @@ public class CityRepository /*: ICityRepository*/
         _dbSet = _context.Set<City>();
     }
 
-    //public async Task<Dictionary<string,string>> GetAllAsync(CancellationToken cancellationToken = default)
+    //public async Task<Dictionary<string, string>> GetAllAsync(CancellationToken cancellationToken = default)
     //{
-    //    return await _dbSet.AsNoTracking()
-    //    .Where(c => c.ProvinceId != null) // Get only cities
-    //    .GroupBy(c => c.ProvinceId) // Group by ProvinceId
-    //    .Select(g => new
-    //    {
-    //        Province = _dbSet.First(p => p.Id == g.Key).Name, // Get province name
-    //        Cities = g.Select(c => c.Name).ToList() // Get city names
-    //    })
-    //    .ToDictionaryAsync(g => g.Province, g => g.Cities, cancellationToken);
+    //    //return await _dbSet.AsNoTracking()
+    //    //    .Where(c => c.ProvinceId != null)
+    //    //    .GroupBy(c => c.ProvinceId)
+    //    //    .Select(g =>
+    //    //    new{
+    //    //        Province=_dbSet.First(p=>p.Id==g.Key).Name,
+    //    //        CityName=g.Select(x=>x.Name)
+    //    //    }).ToDictionaryAsync(g=>g.Province,g=>g.CityName);
 
-    //    return entities;
+
+
+    //    //return entities;
     //}
 
     public async Task<City> GetByIdAsync(long id, CancellationToken cancellationToken = default) =>
