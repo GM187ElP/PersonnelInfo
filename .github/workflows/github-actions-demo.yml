@@ -18,8 +18,8 @@ jobs:
       - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.WINDOWS_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          echo "${{ secrets.WINDOWS_SSH_KEY }}" > ~/.ssh/id_rsa_github
+          chmod 600 ~/.ssh/id_rsa_github
 
       # Optional: disable host key checking
       - name: Disable SSH host key checking
