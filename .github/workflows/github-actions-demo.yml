@@ -1,18 +1,23 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+name: Connect to Windows Home PC
+
+on:
+  workflow_dispatch:  # Run manually from GitHub
+
 jobs:
-  Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
+  ssh-to-windows:
+    runs-on: ubuntu-latest  # Linux runner works fine for SSH
+
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
+      - name: Set up SSH key
         run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+          mkdir -p ~/.ssh
+          echo "${{ secrets.HOME_PC_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Test SSH connection
+        run: |
+          ssh -o StrictHostKeyChecking=no homeuser@lm-characteristics-freely-subtle.trycloudflare.com "hostname && whoami"
+
+      - name: Run commands on Windows PC
+        run: |
+          ssh -o StrictHostKeyChecking=no homeuser@lm-characteristics-freely-subtle.trycloudflare.com "powershell -Command 'Write-Output \"Hello from GitHub Actions on Windows!\"'"
