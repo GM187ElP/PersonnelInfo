@@ -21,3 +21,4 @@ jobs:
       - name: Run commands on Windows PC
         run: |
           ssh -o StrictHostKeyChecking=no homeuser@lm-characteristics-freely-subtle.trycloudflare.com "powershell -Command 'Write-Output \"Hello from GitHub Actions on Windows!\"'"
+
