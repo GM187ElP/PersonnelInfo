@@ -1,24 +1,33 @@
-name: Connect to Windows Home PC
+name: SSH to Windows via Serveo
 
+# Trigger on push or manual
 on:
-  push
+  push:
+    branches:
+      - main
 
 jobs:
   ssh-to-windows:
-    runs-on: ubuntu-latest  # Linux runner works fine for SSH
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Set up SSH key
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Add your SSH private key from GitHub Secrets
+      - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.HOME_PC_SSH_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.WINDOWS_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-      - name: Test SSH connection
+      # Optional: disable host key checking
+      - name: Disable SSH host key checking
         run: |
-          ssh -o StrictHostKeyChecking=no homeuser@lm-characteristics-freely-subtle.trycloudflare.com "hostname && whoami"
+          echo -e "Host serveo.net\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+          echo -e "Host yerumbinaj\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
-      - name: Run commands on Windows PC
+      # Connect to your Windows PC via Serveo
+      - name: SSH into Windows
         run: |
-          ssh -o StrictHostKeyChecking=no homeuser@lm-characteristics-freely-subtle.trycloudflare.com "powershell -Command 'Write-Output \"Hello from GitHub Actions on Windows!\"'"
-
+          ssh -J serveo.net windows-username@yerumbinaj "powershell -Command 'Write-Output \"Hello from GitHub Actions!\"'"
