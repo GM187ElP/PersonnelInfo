@@ -1,7 +1,7 @@
 name: Connect to Windows Home PC
 
 on:
-  workflow_dispatch:  # Run manually from GitHub
+  push
 
 jobs:
   ssh-to-windows:
