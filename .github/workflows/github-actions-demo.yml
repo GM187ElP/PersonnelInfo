@@ -30,4 +30,4 @@ jobs:
       # Connect to your Windows PC via Serveo
       - name: SSH into Windows
         run: |
-          ssh -J serveo.net windows-username@yerumbinaj "powershell -Command 'Write-Output \"Hello from GitHub Actions!\"'"
+          ssh -J serveo.net A@yerumbinaj "powershell -Command 'Write-Output \"Hello from GitHub Actions!\"'"
